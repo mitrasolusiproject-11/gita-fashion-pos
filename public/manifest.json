@@ -1,0 +1,47 @@
+{
+  "name": "Gita Fashion - Sistem Kasir",
+  "short_name": "Gita Fashion",
+  "description": "Aplikasi kasir modern untuk Gita Fashion dengan fitur POS, inventory, dan barcode",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1f2937",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "id",
+  "categories": ["business", "productivity", "shopping"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo-gita-fashion.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Point of Sale",
+      "short_name": "POS",
+      "description": "Akses langsung ke sistem kasir",
+      "url": "/dashboard/pos"
+    },
+    {
+      "name": "Produk",
+      "short_name": "Products",
+      "description": "Kelola produk dan inventory",
+      "url": "/dashboard/products"
+    },
+    {
+      "name": "Transaksi",
+      "short_name": "Transactions",
+      "description": "Lihat riwayat transaksi",
+      "url": "/dashboard/transactions"
+    }
+  ]
+}
