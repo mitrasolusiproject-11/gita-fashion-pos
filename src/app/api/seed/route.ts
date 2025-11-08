@@ -44,6 +44,14 @@ async function seedDatabase() {
 }
 
 export async function GET() {
+  // Disable in production for security
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ 
+      success: false,
+      error: 'Seeding is disabled in production. Use init-db.sh during deployment.' 
+    }, { status: 403 })
+  }
+
   try {
     await seedDatabase()
     
