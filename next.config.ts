@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  reactCompiler: true,
+  // reactCompiler: true, // Disabled for deployment
   serverExternalPackages: ['better-sqlite3'],
   images: {
     remotePatterns: [
