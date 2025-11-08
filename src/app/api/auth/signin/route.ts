@@ -16,10 +16,13 @@ export async function POST(request: NextRequest) {
     const response = NextResponse.json({ user })
     
     // Set cookie with appropriate settings
-    // Note: secure flag disabled for HTTP deployment
+    // Auto-detect HTTPS based on environment
+    const isProduction = process.env.NODE_ENV === 'production'
+    const isHttps = request.headers.get('x-forwarded-proto') === 'https'
+    
     response.cookies.set('auth-token', token, {
       httpOnly: true,
-      secure: false, // Set to false for HTTP, true for HTTPS
+      secure: isProduction && isHttps, // Enable secure flag for HTTPS
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7, // 7 days
       path: '/' // Ensure cookie is available for all paths
