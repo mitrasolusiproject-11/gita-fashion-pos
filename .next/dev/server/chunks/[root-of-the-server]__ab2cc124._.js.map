@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///D:/Project/KIRO/Gita%20Fashion/gita-fashion/src/app/api/auth/session/route.ts"],"sourcesContent":["import { NextRequest, NextResponse } from 'next/server'\r\n\r\nexport async function GET(request: NextRequest) {\r\n  try {\r\n    // Simple response for now - client will handle auth via localStorage\r\n    return NextResponse.json({ \r\n      user: null,\r\n      message: 'Use client-side auth check' \r\n    })\r\n  } catch (error) {\r\n    console.error('Session error:', error)\r\n    return NextResponse.json({ user: null })\r\n  }\r\n}\r\n\r\nexport const runtime = 'nodejs'"],"names":[],"mappings":";;;;;;AAAA;;AAEO,eAAe,IAAI,OAAoB;IAC5C,IAAI;QACF,qEAAqE;QACrE,OAAO,gJAAY,CAAC,IAAI,CAAC;YACvB,MAAM;YACN,SAAS;QACX;IACF,EAAE,OAAO,OAAO;QACd,QAAQ,KAAK,CAAC,kBAAkB;QAChC,OAAO,gJAAY,CAAC,IAAI,CAAC;YAAE,MAAM;QAAK;IACxC;AACF;AAEO,MAAM,UAAU","debugId":null}}]
-}
