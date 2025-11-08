@@ -14,13 +14,18 @@ export async function POST(request: NextRequest) {
     const token = createToken(user)
     
     const response = NextResponse.json({ user })
+    
+    // Set cookie with appropriate settings
+    // Note: secure flag disabled for HTTP deployment
     response.cookies.set('auth-token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false, // Set to false for HTTP, true for HTTPS
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7, // 7 days
       path: '/' // Ensure cookie is available for all paths
     })
+    
+    console.log('✅ Cookie set for user:', user.email)
     return response
   } catch (error) {
     console.error('Auth error:', error)
