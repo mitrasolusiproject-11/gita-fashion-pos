@@ -2,10 +2,19 @@
 set -e
 
 echo "🔍 Checking database..."
+echo "📍 DATABASE_URL: $DATABASE_URL"
 
 # Ensure data directory exists and is writable
+echo "📁 Creating /app/data directory..."
 mkdir -p /app/data
 chmod 755 /app/data
+
+# Test write permissions
+echo "✍️  Testing write permissions..."
+touch /app/data/test.txt && rm /app/data/test.txt && echo "✅ Directory is writable" || echo "❌ Directory is NOT writable"
+
+# List directory permissions
+ls -la /app/data
 
 # Check if database exists
 if [ ! -f "/app/data/sqlite.db" ]; then

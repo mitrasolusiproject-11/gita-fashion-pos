@@ -63,6 +63,7 @@ EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+ENV DATABASE_URL="file:/app/data/sqlite.db"
 
 # Run init script then start server
 CMD sh ./init-db.sh && node server.js
