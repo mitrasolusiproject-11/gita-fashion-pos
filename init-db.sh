@@ -23,7 +23,7 @@ if [ ! -f "/app/data/sqlite.db" ]; then
     echo "✅ Database initialized!"
     
     echo "🌱 Seeding database with default data..."
-    cd /app && npm run db:seed
+    cd /app && node scripts/seed-production.js
     echo "✅ Database seeded!"
 else
     echo "✅ Database exists"

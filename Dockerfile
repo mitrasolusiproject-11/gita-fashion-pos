@@ -50,6 +50,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 # Copy package.json
 COPY --from=builder /app/package.json ./package.json
 
+# Copy seed script
+COPY --from=builder --chown=nextjs:nodejs /app/scripts/seed-production.js ./scripts/seed-production.js
+
 # Copy init script
 COPY --chown=nextjs:nodejs init-db.sh ./init-db.sh
 RUN chmod +x ./init-db.sh
