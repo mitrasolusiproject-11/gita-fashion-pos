@@ -36,8 +36,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { email, name, password, role } = body
 
+    console.log('Creating user:', { email, name, role })
+
+    // Validate required fields
+    if (!email || !name || !password || !role) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10)
+    console.log('Password hashed successfully')
 
     const [newUser] = await db.insert(users).values({
       email,
@@ -52,6 +60,7 @@ export async function POST(request: NextRequest) {
       createdAt: users.createdAt
     })
 
+    console.log('User created successfully:', newUser.email)
     return NextResponse.json(newUser, { status: 201 })
   } catch (error) {
     console.error('Error creating user:', error)
