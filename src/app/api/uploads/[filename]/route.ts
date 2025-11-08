@@ -5,10 +5,10 @@ import { existsSync } from 'fs'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { filename: string } }
+  context: { params: Promise<{ filename: string }> }
 ) {
   try {
-    const filename = params.filename
+    const { filename } = await context.params
     const filepath = join('/app/data/uploads', filename)
 
     if (!existsSync(filepath)) {
