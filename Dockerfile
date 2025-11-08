@@ -54,10 +54,10 @@ COPY --from=builder /app/package.json ./package.json
 COPY --chown=nextjs:nodejs init-db.sh ./init-db.sh
 RUN chmod +x ./init-db.sh
 
-# Create data directory for SQLite
-RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
-
 USER nextjs
+
+# Create data directory for SQLite (as nextjs user)
+RUN mkdir -p /app/data
 
 EXPOSE 3000
 
