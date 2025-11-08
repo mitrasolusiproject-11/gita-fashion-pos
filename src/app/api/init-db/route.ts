@@ -33,31 +33,23 @@ export async function GET(request: Request) {
     const hashedPassword = await bcrypt.hash('admin123', 10)
     
     await db.insert(users).values({
-      id: 'admin-' + Date.now(),
       name: 'Administrator',
       email: 'admin@gitafashion.com',
       password: hashedPassword,
-      role: 'ADMIN',
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      role: 'ADMIN'
     })
 
     // Create default categories
     const defaultCategories = [
-      { id: 'cat-001', name: 'Pakaian', description: 'Kategori pakaian' },
-      { id: 'cat-002', name: 'Aksesoris', description: 'Kategori aksesoris' },
-      { id: 'cat-003', name: 'Sepatu', description: 'Kategori sepatu' },
-      { id: 'cat-004', name: 'Tas', description: 'Kategori tas' },
-      { id: 'cat-005', name: 'Lainnya', description: 'Kategori lainnya' }
+      { name: 'Pakaian', description: 'Kategori pakaian' },
+      { name: 'Aksesoris', description: 'Kategori aksesoris' },
+      { name: 'Sepatu', description: 'Kategori sepatu' },
+      { name: 'Tas', description: 'Kategori tas' },
+      { name: 'Lainnya', description: 'Kategori lainnya' }
     ]
 
     for (const category of defaultCategories) {
-      await db.insert(categories).values({
-        ...category,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+      await db.insert(categories).values(category)
     }
 
     return NextResponse.json({
