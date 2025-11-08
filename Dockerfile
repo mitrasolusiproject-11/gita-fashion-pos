@@ -63,10 +63,10 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Copy database files
+# Copy database files and lib
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./
-COPY --from=builder --chown=nextjs:nodejs /app/src/lib/schema.js ./src/lib/schema.js
+COPY --from=builder --chown=nextjs:nodejs /app/src/lib ./src/lib
 
 # Copy initialization scripts
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts

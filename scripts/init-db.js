@@ -9,7 +9,19 @@ const { drizzle } = require('drizzle-orm/better-sqlite3');
 const Database = require('better-sqlite3');
 const { migrate } = require('drizzle-orm/better-sqlite3/migrator');
 const bcrypt = require('bcryptjs');
-const { users, categories } = require('../src/lib/schema');
+
+// Try to load schema from different possible locations
+let users, categories;
+try {
+  const schema = require('../src/lib/schema');
+  users = schema.users;
+  categories = schema.categories;
+} catch (e) {
+  // In production build, try from current directory
+  const schema = require('./src/lib/schema');
+  users = schema.users;
+  categories = schema.categories;
+}
 
 const DB_PATH = process.env.DATABASE_URL?.replace('file:', '') || './data/sqlite.db';
 const MIGRATIONS_PATH = './drizzle';
