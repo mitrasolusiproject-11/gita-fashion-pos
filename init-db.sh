@@ -21,6 +21,10 @@ if [ ! -f "/app/data/sqlite.db" ]; then
     echo "📦 Database not found, running migrations..."
     cd /app && node_modules/.bin/drizzle-kit migrate
     echo "✅ Database initialized!"
+    
+    echo "🌱 Seeding database with default data..."
+    cd /app && npm run db:seed
+    echo "✅ Database seeded!"
 else
     echo "✅ Database exists"
 fi
