@@ -39,12 +39,22 @@ RUN echo "Building Next.js application..." && \
 FROM base AS runner
 WORKDIR /app
 
+# Install runtime dependencies for better-sqlite3
+RUN apk add --no-cache libc6-compat python3 make g++
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Create user and group
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
+
+# Copy package files for production dependencies
+COPY --from=builder /app/package.json /app/package-lock.json* ./
+
+# Install ONLY production dependencies
+RUN npm ci --only=production && \
+    npm cache clean --force
 
 # Copy public assets
 COPY --from=builder /app/public ./public
@@ -56,7 +66,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Copy database files
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 
 # Create data directory for SQLite
 RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
