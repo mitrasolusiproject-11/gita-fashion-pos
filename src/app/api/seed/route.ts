@@ -43,8 +43,19 @@ async function seedDatabase() {
   console.log('✅ Database seeded successfully!')
 }
 
-export async function GET() {
+export async function POST() {
   try {
+    // Simple security: only allow in development or with secret key
+    const isDev = process.env.NODE_ENV === 'development'
+    const secretKey = process.env.SEED_SECRET_KEY
+    
+    if (!isDev && !secretKey) {
+      return NextResponse.json({ 
+        success: false,
+        error: 'Seeding is disabled in production' 
+      }, { status: 403 })
+    }
+    
     await seedDatabase()
     
     return NextResponse.json({ 
@@ -62,10 +73,6 @@ export async function GET() {
       error: String(error) 
     }, { status: 500 })
   }
-}
-
-export async function POST() {
-  return GET()
 }
 
 export const runtime = 'nodejs'

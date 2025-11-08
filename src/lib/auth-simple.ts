@@ -17,22 +17,17 @@ export interface User {
 
 export async function signIn(email: string, password: string): Promise<User | null> {
   try {
-    console.log('🔍 Looking up user:', email)
     const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1)
 
     if (!user) {
-      console.log('❌ User not found:', email)
       return null
     }
 
-    console.log('✅ User found:', email)
     const isPasswordValid = await bcrypt.compare(password, user.password)
     if (!isPasswordValid) {
-      console.log('❌ Invalid password for:', email)
       return null
     }
 
-    console.log('✅ Password valid for:', email)
     return {
       id: user.id,
       email: user.email,

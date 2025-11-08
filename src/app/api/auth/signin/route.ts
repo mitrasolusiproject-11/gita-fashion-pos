@@ -6,15 +6,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { email, password } = body
 
-    console.log('🔐 Login attempt for:', email)
-
     const user = await signIn(email, password)
     if (!user) {
-      console.log('❌ Login failed for:', email)
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    console.log('✅ Login successful for:', email)
     const token = createToken(user)
     
     const response = NextResponse.json({ user })
