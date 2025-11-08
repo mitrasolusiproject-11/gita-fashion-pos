@@ -66,6 +66,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Copy database files
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./
+COPY --from=builder --chown=nextjs:nodejs /app/src/lib/schema.js ./src/lib/schema.js
+
+# Copy initialization scripts
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
 
 # Create data directory for SQLite
 RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
@@ -73,7 +77,7 @@ RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
 # Copy healthcheck and startup scripts
 COPY --from=builder --chown=nextjs:nodejs /app/healthcheck.js ./
 COPY --from=builder --chown=nextjs:nodejs /app/start.sh ./
-RUN chmod +x /app/start.sh
+RUN chmod +x /app/start.sh /app/scripts/init-db.js
 
 USER nextjs
 
