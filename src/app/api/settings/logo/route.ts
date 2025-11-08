@@ -30,20 +30,21 @@ export async function POST(request: NextRequest) {
     const extension = file.name.split('.').pop()
     const filename = `logo-${timestamp}.${extension}`
     
-    // Save file to public/uploads directory
+    // Save file to data/uploads directory (persistent storage)
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
     
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), 'public', 'uploads')
+    // Use /app/data/uploads for persistent storage
+    const uploadsDir = join('/app/data', 'uploads')
     if (!existsSync(uploadsDir)) {
-      await writeFile(join(uploadsDir, '.gitkeep'), '')
+      const { mkdir } = await import('fs/promises')
+      await mkdir(uploadsDir, { recursive: true })
     }
     
     const filepath = join(uploadsDir, filename)
     await writeFile(filepath, buffer)
 
-    const logoUrl = `/uploads/${filename}`
+    const logoUrl = `/api/uploads/${filename}`
 
     // Save logo URL to database settings
     try {
@@ -143,9 +144,10 @@ export async function DELETE() {
         .where(eq(settings.key, 'logoUrl'))
 
       // Clean up old uploaded file (if it's not the default)
-      if (oldLogoUrl && oldLogoUrl.startsWith('/uploads/')) {
+      if (oldLogoUrl && oldLogoUrl.startsWith('/api/uploads/')) {
         try {
-          const oldFilepath = join(process.cwd(), 'public', oldLogoUrl)
+          const filename = oldLogoUrl.split('/').pop()
+          const oldFilepath = join('/app/data/uploads', filename || '')
           if (existsSync(oldFilepath)) {
             await unlink(oldFilepath)
           }
