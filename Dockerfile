@@ -16,14 +16,24 @@ RUN npm ci
 FROM base AS builder
 WORKDIR /app
 
+# Accept build arguments
+ARG DATABASE_URL=file:./data/sqlite.db
+ARG NEXTAUTH_SECRET=build-time-secret
+ARG NEXTAUTH_URL=http://localhost:3000
+
 # Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
 
 # Copy all source files
 COPY . .
 
-# Disable telemetry
+# Set build-time environment variables
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+ENV SKIP_ENV_VALIDATION=1
+ENV DATABASE_URL=$DATABASE_URL
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
 
 # Build Next.js application
 RUN npm run build
