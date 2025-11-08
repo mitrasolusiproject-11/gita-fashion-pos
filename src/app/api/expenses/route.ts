@@ -16,15 +16,21 @@ export async function GET(request: NextRequest) {
     const startDate = searchParams.get('startDate')
     const endDate = searchParams.get('endDate')
 
-    let query = db.select().from(expenses)
+    let allExpenses
 
     if (shiftId) {
-      query = query.where(eq(expenses.shiftId, shiftId))
+      allExpenses = await db.select()
+        .from(expenses)
+        .where(eq(expenses.shiftId, shiftId))
+        .orderBy(desc(expenses.createdAt))
     } else if (startDate && endDate) {
-      query = query.where(and(
-        gte(expenses.createdAt, new Date(startDate)),
-        lte(expenses.createdAt, new Date(endDate))
-      ))
+      allExpenses = await db.select()
+        .from(expenses)
+        .where(and(
+          gte(expenses.createdAt, new Date(startDate)),
+          lte(expenses.createdAt, new Date(endDate))
+        ))
+        .orderBy(desc(expenses.createdAt))
     } else {
       // Default: expenses from today
       const today = new Date()
@@ -32,13 +38,14 @@ export async function GET(request: NextRequest) {
       const tomorrow = new Date(today)
       tomorrow.setDate(tomorrow.getDate() + 1)
       
-      query = query.where(and(
-        gte(expenses.createdAt, today),
-        lte(expenses.createdAt, tomorrow)
-      ))
+      allExpenses = await db.select()
+        .from(expenses)
+        .where(and(
+          gte(expenses.createdAt, today),
+          lte(expenses.createdAt, tomorrow)
+        ))
+        .orderBy(desc(expenses.createdAt))
     }
-
-    const allExpenses = await query.orderBy(desc(expenses.createdAt))
 
     return NextResponse.json(allExpenses)
   } catch (error) {
