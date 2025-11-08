@@ -4,13 +4,15 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   try {
     // Basic health checks
-    const healthStatus = {
+    const healthStatus: any = {
       status: 'healthy',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       memory: process.memoryUsage(),
       version: process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0',
-      environment: process.env.NODE_ENV || 'development'
+      environment: process.env.NODE_ENV || 'development',
+      database: { status: 'checking' },
+      config: {}
     }
 
     // Check database connection
@@ -21,12 +23,14 @@ export async function GET() {
       
       healthStatus.database = {
         status: 'connected',
-        initialized: userCount.length > 0
+        initialized: userCount.length > 0,
+        userCount: userCount.length
       }
     } catch (dbError) {
       healthStatus.database = {
         status: 'error',
-        error: dbError instanceof Error ? dbError.message : 'Unknown'
+        error: dbError instanceof Error ? dbError.message : 'Unknown',
+        stack: dbError instanceof Error ? dbError.stack : undefined
       }
     }
 
