@@ -2,7 +2,7 @@
 
 # Build configuration
 build:
-  dockerfile: Dockerfile
+  dockerfile: Dockerfile.coolify
   context: .
 
 # Port configuration

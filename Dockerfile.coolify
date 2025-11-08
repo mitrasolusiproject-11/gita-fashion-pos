@@ -3,11 +3,11 @@ FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat python3 make g++
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -18,6 +18,10 @@ COPY . .
 # Environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV SKIP_ENV_VALIDATION=1
+ENV DATABASE_URL=file:./data/sqlite.db
+ENV NEXTAUTH_SECRET=build-time-secret-min-32-chars-long
+ENV NEXTAUTH_URL=http://localhost:3000
 
 # Build application
 RUN npm run build
@@ -26,11 +30,18 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
+# Install runtime dependencies for better-sqlite3
+RUN apk add --no-cache libc6-compat python3 make g++
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Copy package files and install production dependencies
+COPY --from=builder /app/package.json /app/package-lock.json* ./
+RUN npm ci --only=production && npm cache clean --force
 
 COPY --from=builder /app/public ./public
 RUN mkdir .next
@@ -40,6 +51,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./drizzle.config.ts
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+COPY --from=builder --chown=nextjs:nodejs /app/src/lib ./src/lib
 
 # Create data directory
 RUN mkdir -p data && chown nextjs:nodejs data
