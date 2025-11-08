@@ -13,8 +13,29 @@ export async function GET() {
       environment: process.env.NODE_ENV || 'development'
     }
 
-    // Optional: Check database connection
-    // You can add database connectivity check here if needed
+    // Check database connection
+    try {
+      const { db } = await import('@/lib/db')
+      const { users } = await import('@/lib/schema')
+      const userCount = await db.select().from(users).limit(1)
+      
+      healthStatus.database = {
+        status: 'connected',
+        initialized: userCount.length > 0
+      }
+    } catch (dbError) {
+      healthStatus.database = {
+        status: 'error',
+        error: dbError instanceof Error ? dbError.message : 'Unknown'
+      }
+    }
+
+    // Check environment variables
+    healthStatus.config = {
+      hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
+      nextAuthUrl: process.env.NEXTAUTH_URL || 'not set',
+      databaseUrl: process.env.DATABASE_URL || 'not set'
+    }
 
     return NextResponse.json(healthStatus, { status: 200 })
   } catch (error) {

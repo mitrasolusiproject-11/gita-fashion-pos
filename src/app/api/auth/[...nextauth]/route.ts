@@ -7,11 +7,19 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { email, password } = body
 
+    console.log('Login attempt for:', email)
+
+    if (!email || !password) {
+      return NextResponse.json({ error: 'Email and password required' }, { status: 400 })
+    }
+
     const user = await signIn(email, password)
     if (!user) {
+      console.log('Login failed: Invalid credentials')
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
+    console.log('Login successful for:', email)
     const token = createToken(user)
     
     const response = NextResponse.json({ user })
@@ -25,7 +33,11 @@ export async function POST(request: NextRequest) {
     return response
   } catch (error) {
     console.error('Auth error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json({ 
+      error: 'Authentication failed',
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    }, { status: 500 })
   }
 }
 
