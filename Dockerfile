@@ -33,13 +33,26 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy necessary files
+# Copy public folder
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/drizzle ./drizzle
-COPY --from=builder /app/node_modules ./node_modules
+
+# Copy standalone output
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Copy drizzle migrations and config
+COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
+COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./drizzle.config.ts
+
+# Copy node_modules for drizzle-kit
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+
+# Copy package.json
 COPY --from=builder /app/package.json ./package.json
+
+# Copy init script
+COPY --chown=nextjs:nodejs init-db.sh ./init-db.sh
+RUN chmod +x ./init-db.sh
 
 # Create data directory for SQLite
 RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
@@ -51,5 +64,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Start script
-CMD ["node", "server.js"]
+# Run init script then start server
+CMD sh ./init-db.sh && node server.js
