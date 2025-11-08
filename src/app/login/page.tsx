@@ -24,15 +24,24 @@ export default function LoginPage() {
     setError('')
 
     try {
+      console.log('🔐 Attempting login...')
       const result = await clientSignIn(email, password)
+      console.log('📥 Login result:', result)
       
       if (result.success) {
-        console.log('Login successful:', result.user)
+        console.log('✅ Login successful:', result.user)
         // Refresh session to update auth context
-        refreshSession()
+        await refreshSession()
+        console.log('🔄 Session refreshed')
         // Navigate to dashboard
+        console.log('🚀 Navigating to dashboard...')
         router.push('/dashboard')
+        // Force reload as fallback
+        setTimeout(() => {
+          window.location.href = '/dashboard'
+        }, 1000)
       } else {
+        console.log('❌ Login failed:', result.error)
         setError(result.error || 'Email atau password salah')
       }
     } catch (error) {
