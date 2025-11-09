@@ -73,6 +73,8 @@ export async function GET(request: NextRequest) {
     const groupedData: Record<string, any> = {}
     
     allTransactions.forEach(t => {
+      if (!t.createdAt) return // Skip if no date
+      
       const date = new Date(t.createdAt)
       let key = ''
       
