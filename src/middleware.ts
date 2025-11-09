@@ -50,7 +50,8 @@ export async function middleware(request: NextRequest) {
     // Admin and Manager only routes
     if (
       (pathname.startsWith('/dashboard/products') || 
-       pathname.startsWith('/dashboard/customers')) && 
+       pathname.startsWith('/dashboard/customers') ||
+       pathname.startsWith('/dashboard/reports')) && 
       !['ADMIN', 'MANAGER'].includes(userRole)
     ) {
       return NextResponse.redirect(new URL('/dashboard', request.url))

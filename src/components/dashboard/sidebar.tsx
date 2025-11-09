@@ -17,7 +17,8 @@ import {
   X,
   Clock,
   TrendingDown,
-  QrCode
+  QrCode,
+  FileText
 } from 'lucide-react'
 
 const menuItems = [
@@ -26,6 +27,7 @@ const menuItems = [
   { href: '/dashboard/products', label: 'Produk', icon: Package, roles: ['ADMIN', 'MANAGER'] },
   { href: '/dashboard/barcode', label: 'Cetak Barcode', icon: QrCode, roles: ['ADMIN', 'MANAGER'] },
   { href: '/dashboard/transactions', label: 'Transaksi', icon: BarChart3, roles: ['ADMIN', 'MANAGER', 'CASHIER'] },
+  { href: '/dashboard/reports', label: 'Laporan', icon: FileText, roles: ['ADMIN', 'MANAGER'] },
   { href: '/dashboard/shift', label: 'Tutup Kasir', icon: Clock, roles: ['ADMIN', 'MANAGER', 'CASHIER'] },
   { href: '/dashboard/expenses', label: 'Pengeluaran', icon: TrendingDown, roles: ['ADMIN', 'MANAGER'] },
   { href: '/dashboard/settings', label: 'Pengaturan', icon: Settings, roles: ['ADMIN'] },
