@@ -13,6 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Store, User, Printer, Database, Shield, Plus, Edit, Trash2, Users } from 'lucide-react'
 import LogoUpload from '@/components/settings/logo-upload'
 import ChangePasswordDialog from '@/components/settings/change-password-dialog'
+import ImportTransactions from '@/components/settings/import-transactions'
 
 interface UserData {
   id: string
@@ -430,6 +431,13 @@ export default function SettingsPage() {
               window.dispatchEvent(new CustomEvent('logoChanged', { detail: { logoUrl: newLogoUrl } }))
             }}
           />
+        </div>
+      )}
+
+      {/* Import Transactions Section - Admin Only */}
+      {user?.role === 'ADMIN' && (
+        <div className="mb-6">
+          <ImportTransactions />
         </div>
       )}
 
