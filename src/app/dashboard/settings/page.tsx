@@ -370,6 +370,30 @@ export default function SettingsPage() {
     }
   }
 
+  const handleMigrateForeignKey = async () => {
+    if (!confirm('Jalankan migration untuk menghapus foreign key constraint dari outgoing_items? Ini diperlukan untuk import transaksi.')) {
+      return
+    }
+
+    try {
+      const response = await fetch('/api/migrate-fk', {
+        method: 'POST',
+        credentials: 'include'
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        alert(`✅ ${result.message}`)
+      } else {
+        alert(`❌ Migration gagal: ${result.error}`)
+      }
+    } catch (error) {
+      console.error('Error running migration:', error)
+      alert('Terjadi kesalahan saat menjalankan migration')
+    }
+  }
+
   const handleRestoreDatabase = async () => {
     if (!restoreFile) {
       alert('Pilih file backup untuk direstore')
@@ -672,6 +696,16 @@ export default function SettingsPage() {
             </div>
 
             <div className="pt-4 border-t space-y-2">
+              {user?.role === 'ADMIN' && (
+                <Button 
+                  variant="outline" 
+                  onClick={handleMigrateForeignKey}
+                  className="w-full mb-2"
+                  size="sm"
+                >
+                  🔧 Fix Import Error (Run Migration)
+                </Button>
+              )}
               <div className="grid grid-cols-2 gap-2">
                 <Button variant="outline" onClick={handleBackupDatabase}>
                   <Database className="h-4 w-4 mr-2" />
