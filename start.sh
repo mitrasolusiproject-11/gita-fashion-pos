@@ -19,6 +19,12 @@ if [ ! -f "/app/data/sqlite.db" ]; then
 else
     echo "✅ Database found, running migrations..."
     npm run db:migrate
+    
+    # Run FK constraint removal migration if needed
+    if [ -f "/app/scripts/remove-fk-constraint.js" ]; then
+        echo "🔧 Running FK constraint migration..."
+        node /app/scripts/remove-fk-constraint.js || echo "⚠️  FK migration skipped (may already be applied)"
+    fi
 fi
 
 echo "🎉 Starting application..."

@@ -56,7 +56,7 @@ export const outgoingItems = sqliteTable('outgoing_items', {
   barcode: text('barcode').notNull(),
   productName: text('product_name').notNull(),
   quantity: integer('quantity').notNull(),
-  transactionCode: text('transaction_code').notNull().references(() => transactions.code),
+  transactionCode: text('transaction_code').notNull(), // Removed FK constraint for import flexibility
   price: real('price').notNull(),
   discountPercent: real('discount_percent').notNull().default(0),
   discountAmount: real('discount_amount').notNull().default(0),
