@@ -34,8 +34,12 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
     
-    // Use /app/data/uploads for persistent storage
-    const uploadsDir = join('/app/data', 'uploads')
+    // Use different path for local vs production
+    const isProduction = process.env.NODE_ENV === 'production'
+    const uploadsDir = isProduction 
+      ? join('/app/data', 'uploads')
+      : join(process.cwd(), 'data', 'uploads')
+    
     if (!existsSync(uploadsDir)) {
       const { mkdir } = await import('fs/promises')
       await mkdir(uploadsDir, { recursive: true })

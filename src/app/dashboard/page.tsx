@@ -172,7 +172,7 @@ export default function DashboardPage() {
                         Stok: {product.currentStock}
                       </div>
                       <div className="text-sm text-gray-500">
-                        {product.category?.name || 'N/A'}
+                        {product.category?.name || 'Tanpa Kategori'}
                       </div>
                     </div>
                   </div>

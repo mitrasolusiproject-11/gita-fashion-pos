@@ -134,36 +134,57 @@ export async function POST(request: NextRequest) {
 
       // 5. Transactions (depends on users)
       if (data.transactions && Array.isArray(data.transactions)) {
+        console.log(`📦 Restoring ${data.transactions.length} transactions...`)
         for (const transaction of data.transactions) {
           try {
-            await db.insert(transactions).values(transaction).onConflictDoUpdate({
+            // Convert date strings to Date objects
+            const transactionData = {
+              ...transaction,
+              transactionDate: transaction.transactionDate ? new Date(transaction.transactionDate) : null,
+              createdAt: transaction.createdAt ? new Date(transaction.createdAt) : new Date(),
+              updatedAt: transaction.updatedAt ? new Date(transaction.updatedAt) : new Date()
+            }
+            
+            await db.insert(transactions).values(transactionData).onConflictDoUpdate({
               target: transactions.code,
               set: {
-                totalItems: transaction.totalItems,
-                cashAmount: transaction.cashAmount,
-                transferAmount: transaction.transferAmount,
-                bankName: transaction.bankName,
-                paymentStatus: transaction.paymentStatus,
+                totalItems: transactionData.totalItems,
+                cashAmount: transactionData.cashAmount,
+                transferAmount: transactionData.transferAmount,
+                bankName: transactionData.bankName,
+                paymentStatus: transactionData.paymentStatus,
                 updatedAt: new Date()
               }
             })
             restoredCount++
           } catch (error) {
+            console.error(`❌ Transaction ${transaction.code}:`, error)
             errors.push(`Transaction ${transaction.code}: ${error instanceof Error ? error.message : 'Unknown error'}`)
           }
         }
+        console.log(`✅ Transactions restored: ${data.transactions.length}`)
       }
 
       // 6. Outgoing Items (depends on transactions)
       if (data.outgoingItems && Array.isArray(data.outgoingItems)) {
+        console.log(`📦 Restoring ${data.outgoingItems.length} outgoing items...`)
         for (const item of data.outgoingItems) {
           try {
-            await db.insert(outgoingItems).values(item)
+            // Convert date strings to Date objects
+            const itemData = {
+              ...item,
+              date: item.date ? new Date(item.date) : new Date(),
+              createdAt: item.createdAt ? new Date(item.createdAt) : new Date()
+            }
+            
+            await db.insert(outgoingItems).values(itemData)
             restoredCount++
           } catch (error) {
+            console.error(`❌ Outgoing Item ${item.id}:`, error)
             errors.push(`Outgoing Item ${item.id}: ${error instanceof Error ? error.message : 'Unknown error'}`)
           }
         }
+        console.log(`✅ Outgoing Items restored: ${data.outgoingItems.length}`)
       }
 
       // 7. Shifts (depends on users)

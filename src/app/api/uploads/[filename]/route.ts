@@ -9,7 +9,12 @@ export async function GET(
 ) {
   try {
     const { filename } = await context.params
-    const filepath = join('/app/data/uploads', filename)
+    
+    // Use different path for local vs production
+    const isProduction = process.env.NODE_ENV === 'production'
+    const filepath = isProduction
+      ? join('/app/data/uploads', filename)
+      : join(process.cwd(), 'data', 'uploads', filename)
 
     if (!existsSync(filepath)) {
       return new NextResponse('File not found', { status: 404 })

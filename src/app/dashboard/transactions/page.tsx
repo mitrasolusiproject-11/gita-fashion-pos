@@ -429,7 +429,7 @@ export default function TransactionsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalTransactions}</div>
-            <p className="text-xs text-muted-foreground">Transaksi hari ini</p>
+            <p className="text-xs text-muted-foreground">Transaksi hingga hari ini</p>
           </CardContent>
         </Card>
 
@@ -440,7 +440,7 @@ export default function TransactionsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">Rp {totalAmount.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">Penjualan hari ini</p>
+            <p className="text-xs text-muted-foreground">Penjualan hingga hari ini</p>
           </CardContent>
         </Card>
 

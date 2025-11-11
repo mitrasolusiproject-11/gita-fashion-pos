@@ -242,6 +242,11 @@ export default function POSPage() {
     setIsProcessingPayment(true)
 
     try {
+      // Calculate actual cash/transfer after deducting change
+      // If customer pays 150k for 120k item, we record 120k not 150k
+      const actualCash = cashAmount > 0 ? Math.min(cashAmount, total) : 0
+      const actualTransfer = transferAmount > 0 ? (total - actualCash) : 0
+
       const transactionData = {
         items: cart.map(item => ({
           barcode: item.barcode,
@@ -252,8 +257,8 @@ export default function POSPage() {
           discountPercent: item.discountType === 'percentage' ? item.discount : 0,
           discountAmount: calculateItemDiscount(item)
         })),
-        cashAmount,
-        transferAmount,
+        cashAmount: actualCash,
+        transferAmount: actualTransfer,
         bankName: transferAmount > 0 ? bankName : null
       }
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { products, transactions, outgoingItems } from '@/lib/schema'
+import { products, transactions, outgoingItems, categories } from '@/lib/schema'
 import { getSession } from '@/lib/auth-simple'
 import { eq, gte, and } from 'drizzle-orm'
 
@@ -17,15 +17,21 @@ export async function GET(request: NextRequest) {
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
 
-    // Fetch all products
+    // Fetch all products with category
     const allProducts = await db.select({
       id: products.id,
       name: products.name,
       barcode: products.barcode,
       currentStock: products.currentStock,
       sellPrice: products.sellPrice,
-      categoryId: products.categoryId
-    }).from(products)
+      categoryId: products.categoryId,
+      category: {
+        id: categories.id,
+        name: categories.name
+      }
+    })
+    .from(products)
+    .leftJoin(categories, eq(products.categoryId, categories.id))
 
     // Fetch today's transactions
     const todayTransactions = await db.select()
