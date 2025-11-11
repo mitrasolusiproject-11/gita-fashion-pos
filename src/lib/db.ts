@@ -11,6 +11,8 @@ let _db: ReturnType<typeof drizzle> | null = null
 function getDb() {
   if (!_db) {
     const sqlite = new Database(dbPath)
+    // Enable foreign key constraints
+    sqlite.pragma('foreign_keys = ON')
     _db = drizzle(sqlite, { schema })
   }
   return _db

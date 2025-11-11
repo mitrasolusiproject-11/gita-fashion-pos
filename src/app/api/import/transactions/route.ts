@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
         const transactionDate = Math.floor(dateObj.getTime() / 1000)
         const now = Math.floor(Date.now() / 1000)
 
-        // Insert transaction first
+        // Insert transaction first and ensure it's committed
         await db.insert(transactions).values({
           id: crypto.randomUUID(),
           code: transaction.code,
@@ -158,7 +158,13 @@ export async function POST(request: NextRequest) {
           userId: transaction.userId,
           createdAt: new Date(transactionDate * 1000),
           updatedAt: new Date(now * 1000)
-        })
+        }).run()
+
+        // Verify transaction was inserted
+        const inserted = await db.select().from(transactions).where(eq(transactions.code, transaction.code)).limit(1)
+        if (inserted.length === 0) {
+          throw new Error('Transaction insert failed')
+        }
 
         // Then insert items (foreign key will work now)
         for (const item of transaction.items) {
@@ -174,7 +180,7 @@ export async function POST(request: NextRequest) {
               discountPercent: item.discountPercent || 0,
               discountAmount: item.discountAmount || 0,
               createdAt: new Date(now * 1000)
-            })
+            }).run()
           } catch (itemError) {
             console.error(`Error inserting item for ${transaction.code}:`, itemError)
             throw itemError
