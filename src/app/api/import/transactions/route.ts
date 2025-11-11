@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
     const errors: string[] = []
 
     // Import transactions
-    for (const transaction of transactionsList) {
+    for (const transaction of transactionsList as any[]) {
       try {
         // Check if exists
         const existing = await db.select().from(transactions).where(eq(transactions.code, transaction.code)).limit(1)
