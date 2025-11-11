@@ -124,13 +124,28 @@ export async function POST(request: NextRequest) {
           continue
         }
 
+        // Validate userId exists
+        const userExists = await db.select().from(users).where(eq(users.id, transaction.userId)).limit(1)
+        if (userExists.length === 0) {
+          errorCount++
+          errors.push(`${transaction.code}: User ID ${transaction.userId} not found`)
+          continue
+        }
+
         // Parse date
         let dateStr = transaction.transactionDate.replace(/(\d{2})\.(\d{2})\.(\d{2})/, '$1:$2:$3')
         const dateObj = new Date(dateStr)
+        
+        if (isNaN(dateObj.getTime())) {
+          errorCount++
+          errors.push(`${transaction.code}: Invalid date format ${transaction.transactionDate}`)
+          continue
+        }
+        
         const transactionDate = Math.floor(dateObj.getTime() / 1000)
         const now = Math.floor(Date.now() / 1000)
 
-        // Insert transaction
+        // Insert transaction first
         await db.insert(transactions).values({
           id: crypto.randomUUID(),
           code: transaction.code,
@@ -145,26 +160,33 @@ export async function POST(request: NextRequest) {
           updatedAt: new Date(now * 1000)
         })
 
-        // Insert items
+        // Then insert items (foreign key will work now)
         for (const item of transaction.items) {
-          await db.insert(outgoingItems).values({
-            id: crypto.randomUUID(),
-            date: new Date(transactionDate * 1000),
-            barcode: item.barcode,
-            productName: item.productName,
-            quantity: item.quantity,
-            transactionCode: transaction.code,
-            price: item.price,
-            discountPercent: item.discountPercent || 0,
-            discountAmount: item.discountAmount || 0,
-            createdAt: new Date(now * 1000)
-          })
+          try {
+            await db.insert(outgoingItems).values({
+              id: crypto.randomUUID(),
+              date: new Date(transactionDate * 1000),
+              barcode: item.barcode,
+              productName: item.productName,
+              quantity: item.quantity,
+              transactionCode: transaction.code,
+              price: item.price,
+              discountPercent: item.discountPercent || 0,
+              discountAmount: item.discountAmount || 0,
+              createdAt: new Date(now * 1000)
+            })
+          } catch (itemError) {
+            console.error(`Error inserting item for ${transaction.code}:`, itemError)
+            throw itemError
+          }
         }
 
         successCount++
       } catch (error) {
         errorCount++
-        errors.push(`${transaction.code}: ${error instanceof Error ? error.message : 'Unknown error'}`)
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+        errors.push(`${transaction.code}: ${errorMsg}`)
+        console.error(`Transaction ${transaction.code} error:`, error)
       }
     }
 
