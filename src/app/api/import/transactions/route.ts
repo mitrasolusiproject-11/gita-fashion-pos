@@ -132,8 +132,16 @@ export async function POST(request: NextRequest) {
           continue
         }
 
-        // Parse date
-        let dateStr = transaction.transactionDate.replace(/(\d{2})\.(\d{2})\.(\d{2})/, '$1:$2:$3')
+        // Parse date - handle both formats: "2024-10-10 12:56:03" and "10.10.24"
+        let dateStr = transaction.transactionDate
+        
+        // If format is DD.MM.YY, convert to proper format
+        if (dateStr.includes('.')) {
+          dateStr = dateStr.replace(/(\d{2})\.(\d{2})\.(\d{2})/, '$1:$2:$3')
+        }
+        
+        // Parse as local time (WIB/GMT+7)
+        // Format: "2024-10-10 12:56:03" or "10:10:24"
         const dateObj = new Date(dateStr)
         
         if (isNaN(dateObj.getTime())) {
@@ -142,29 +150,30 @@ export async function POST(request: NextRequest) {
           continue
         }
         
-        const transactionDate = Math.floor(dateObj.getTime() / 1000)
-        const now = Math.floor(Date.now() / 1000)
+        // Use the date as-is (local time), don't convert
+        const transactionDate = dateObj
+        const now = new Date()
 
         // Insert transaction first
         await db.insert(transactions).values({
           id: crypto.randomUUID(),
           code: transaction.code,
-          transactionDate: new Date(transactionDate * 1000),
+          transactionDate: transactionDate,
           totalItems: transaction.totalItems,
           cashAmount: transaction.cashAmount,
           transferAmount: transaction.transferAmount,
           bankName: transaction.bankName,
           paymentStatus: transaction.paymentStatus,
           userId: transaction.userId,
-          createdAt: new Date(transactionDate * 1000),
-          updatedAt: new Date(now * 1000)
+          createdAt: transactionDate,
+          updatedAt: now
         })
 
         // Then insert items
         for (const item of transaction.items) {
           await db.insert(outgoingItems).values({
             id: crypto.randomUUID(),
-            date: new Date(transactionDate * 1000),
+            date: transactionDate,
             barcode: item.barcode,
             productName: item.productName,
             quantity: item.quantity,
@@ -172,7 +181,7 @@ export async function POST(request: NextRequest) {
             price: item.price,
             discountPercent: item.discountPercent || 0,
             discountAmount: item.discountAmount || 0,
-            createdAt: new Date(now * 1000)
+            createdAt: now
           })
         }
 
