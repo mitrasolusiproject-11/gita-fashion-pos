@@ -140,18 +140,25 @@ export async function POST(request: NextRequest) {
           dateStr = dateStr.replace(/(\d{2})\.(\d{2})\.(\d{2})/, '$1:$2:$3')
         }
         
-        // Parse as local time (WIB/GMT+7)
-        // Format: "2024-10-10 12:56:03" or "10:10:24"
-        const dateObj = new Date(dateStr)
+        // Parse date and treat as WIB (GMT+7) by adding timezone offset
+        // Format: "2024-10-10 12:56:03" -> "2024-10-10T12:56:03+07:00"
+        let transactionDate: Date
         
-        if (isNaN(dateObj.getTime())) {
+        // Try parsing with WIB timezone
+        if (dateStr.match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)) {
+          // Convert "2024-10-10 12:56:03" to "2024-10-10T12:56:03+07:00"
+          const isoStr = dateStr.replace(' ', 'T') + '+07:00'
+          transactionDate = new Date(isoStr)
+        } else {
+          transactionDate = new Date(dateStr)
+        }
+        
+        if (isNaN(transactionDate.getTime())) {
           errorCount++
           errors.push(`${transaction.code}: Invalid date format ${transaction.transactionDate}`)
           continue
         }
         
-        // Use the date as-is (local time), don't convert
-        const transactionDate = dateObj
         const now = new Date()
 
         // Insert transaction first
