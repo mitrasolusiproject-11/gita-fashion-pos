@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useAuth } from '@/components/providers/session-provider'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
@@ -48,6 +49,7 @@ interface TransactionItem {
 }
 
 export default function TransactionsPage() {
+  const { user } = useAuth()
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
@@ -420,41 +422,43 @@ export default function TransactionsPage() {
         <p className="text-gray-600">Kelola dan pantau semua transaksi penjualan</p>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Transaksi</CardTitle>
-            <Receipt className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalTransactions}</div>
-            <p className="text-xs text-muted-foreground">Transaksi hingga hari ini</p>
-          </CardContent>
-        </Card>
+      {/* Summary Cards - Hidden for CASHIER */}
+      {user?.role !== 'CASHIER' && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Transaksi</CardTitle>
+              <Receipt className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{totalTransactions}</div>
+              <p className="text-xs text-muted-foreground">Transaksi hingga hari ini</p>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Penjualan</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Rp {totalAmount.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">Penjualan hingga hari ini</p>
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Penjualan</CardTitle>
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">Rp {totalAmount.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">Penjualan hingga hari ini</p>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Transaksi Lunas</CardTitle>
-            <Filter className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{paidTransactions}</div>
-            <p className="text-xs text-muted-foreground">Dari {totalTransactions} transaksi</p>
-          </CardContent>
-        </Card>
-      </div>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Transaksi Lunas</CardTitle>
+              <Filter className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{paidTransactions}</div>
+              <p className="text-xs text-muted-foreground">Dari {totalTransactions} transaksi</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
