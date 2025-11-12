@@ -8,13 +8,51 @@ import { Upload, FileText, CheckCircle, XCircle, AlertCircle } from 'lucide-reac
 export default function ImportTransactions() {
   const [file, setFile] = useState<File | null>(null)
   const [importing, setImporting] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [result, setResult] = useState<any>(null)
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0])
       setResult(null)
+    }
+  }
+
+  const handleDeleteRange = async () => {
+    if (!startDate || !endDate) {
+      alert('Pilih tanggal mulai dan tanggal akhir')
+      return
+    }
+
+    if (!confirm(`Hapus semua transaksi dari ${startDate} sampai ${endDate}?\n\nPeringatan: Aksi ini tidak dapat dibatalkan!`)) {
+      return
+    }
+
+    setDeleting(true)
+    try {
+      const response = await fetch('/api/transactions/delete-range', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ startDate, endDate })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        alert(`✅ Berhasil menghapus ${data.deletedCount} transaksi`)
+        setStartDate('')
+        setEndDate('')
+      } else {
+        alert(`❌ Error: ${data.error}`)
+      }
+    } catch (error) {
+      console.error('Delete error:', error)
+      alert('Terjadi kesalahan saat menghapus transaksi')
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -67,6 +105,42 @@ export default function ImportTransactions() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Delete Range */}
+        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded space-y-3">
+          <p className="text-sm font-medium text-yellow-900">
+            ⚠️ Hapus Transaksi (untuk re-import)
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-xs text-yellow-800 mb-1">Dari Tanggal</label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full px-3 py-2 text-sm border rounded"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-yellow-800 mb-1">Sampai Tanggal</label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full px-3 py-2 text-sm border rounded"
+              />
+            </div>
+          </div>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={handleDeleteRange}
+            disabled={!startDate || !endDate || deleting}
+            className="w-full"
+          >
+            {deleting ? 'Menghapus...' : 'Hapus Transaksi di Range Ini'}
+          </Button>
+        </div>
+
         {/* File Upload */}
         <div className="space-y-2">
           <label className="block text-sm font-medium">
