@@ -1,0 +1,3 @@
+code,transactionDate,barcode,productName,quantity,price,discountPercent,discountAmount,cashAmount,transferAmount,bankName,paymentStatus
+TRX001,2024-01-15 10:30:00,GF001001,Kemeja Putih,1,85000,0,0,85000,0,,PAID
+TRX002,2024-01-16 14:20:00,GF002001,Celana Jeans,1,120000,0,0,120000,0,,PAID

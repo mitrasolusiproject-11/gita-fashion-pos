@@ -1,0 +1,309 @@
+[00:00:03.950] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:04.478] Server  LOG      ✓ Ready in 3.4s
+[00:00:04.898] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:06.112] Browser LOG     SW registered:  {}
+[00:00:43.249] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:43.434] Browser LOG     SW registered:  {}
+[00:00:46.547] Server  LOG      ○ Compiling /dashboard ...
+[00:01:03.308] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:03.848] Browser LOG     SW registered:  {}
+[00:01:39.632] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:40.301] Browser LOG     SW registered:  {}
+[00:03:19.151] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:19.151] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:34.265] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:03:34.265] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:03.818] Browser LOG     Fetching transaction detail for code: TRX1762838500517
+[00:05:05.843] Server  LOG     Looking for transaction with code: "TRX1762838500517"
+[00:05:05.850] Server  LOG     Found transaction: {}
+[00:05:05.853] Server  LOG     Found items: [{...}]
+[00:05:07.490] Browser LOG     Response status: 200
+[00:05:07.490] Browser LOG     Transaction data: {"cashAmount":190000,"cashierName":"Administrator","code":"TRX1762838500517","createdAt":"2025-11-11T05:21:40.000Z","id":"6ac3699a-26b0-4b4f-ad72-6d818573d865","items":[{"createdAt":"2025-11-11T05:21:40.000Z","discountAmount":0,"discountPercent":0,"id":"fc6a8b04-e57d-4825-b99b-6b3fa8b88156","price":190000,"product":{"barcode":"GF44353","id":"7f840d5a-01b3-4eaf-a2e7-5c76f5943a45","name":"NITROX 09705 UK XL","sellPrice":190000},"productBarcode":"GF44353","productName":"NITROX 09705 UK XL","quantity":1,"transactionCode":"TRX1762838500517"}],"paymentStatus":"PAID","subtotal":190000,"totalAmount":190000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T05:21:40.000Z","transferAmount":0,"updatedAt":"2025-11-11T05:21:40.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[00:05:07.490] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:07.490] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:54.146] Server  LOG     Looking for transaction with code: "TRX1762838500517"
+[00:05:54.148] Server  LOG     Found transaction: {}
+[00:05:54.150] Server  LOG     Found items: [{...}]
+[00:05:56.040] Browser LOG     Fetching transaction for receipt, code: TRX1762838500517
+[00:05:56.040] Browser LOG     Receipt response status: 200
+[00:05:56.040] Browser LOG     Receipt transaction data: {"cashAmount":190000,"cashierName":"Administrator","code":"TRX1762838500517","createdAt":"2025-11-11T05:21:40.000Z","id":"6ac3699a-26b0-4b4f-ad72-6d818573d865","items":[{"createdAt":"2025-11-11T05:21:40.000Z","discountAmount":0,"discountPercent":0,"id":"fc6a8b04-e57d-4825-b99b-6b3fa8b88156","price":190000,"product":{"barcode":"GF44353","id":"7f840d5a-01b3-4eaf-a2e7-5c76f5943a45","name":"NITROX 09705 UK XL","sellPrice":190000},"productBarcode":"GF44353","productName":"NITROX 09705 UK XL","quantity":1,"transactionCode":"TRX1762838500517"}],"paymentStatus":"PAID","subtotal":190000,"totalAmount":190000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T05:21:40.000Z","transferAmount":0,"updatedAt":"2025-11-11T05:21:40.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[00:05:56.040] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:56.040] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:06:57.805] Browser LOG     🔄 Fetching products and categories...
+[00:06:57.805] Browser LOG     📦 Fetching products from API...
+[00:06:57.805] Browser LOG     📂 Fetching categories from API...
+[00:06:57.805] Browser LOG     🔄 Fetching products and categories...
+[00:06:57.805] Browser LOG     📦 Fetching products from API...
+[00:06:57.805] Browser LOG     📂 Fetching categories from API...
+[00:06:57.805] Browser LOG     📦 Products API response status: 200
+[00:06:57.805] Browser LOG     📂 Categories API response status: 200
+[00:06:57.805] Browser LOG     📦 Products API response status: 200
+[00:06:57.805] Browser LOG     📦 Products data received: 743 items
+[00:06:57.805] Browser LOG     📦 Sample product: {"barcode":"GF75631","category":"Gamis","categoryId":"c7b32efb-90ff-4ee8-a8a1-deb82203fa21","createdAt":"2025-10-27T05:57:20.000Z","currentStock":22,"id":"658a3b8d-a1d3-4aa8-a25b-44786d860e7b","initialStock":22,"name":"Gamis dior zahra songket","sellPrice":240000}
+[00:06:57.805] Browser LOG     📂 Categories data received: 17 items
+[00:06:57.805] Browser LOG     ✅ Data fetched successfully
+[00:06:57.805] Browser LOG     📦 Products data received: 743 items
+[00:06:57.805] Browser LOG     📦 Sample product: {"barcode":"GF75631","category":"Gamis","categoryId":"c7b32efb-90ff-4ee8-a8a1-deb82203fa21","createdAt":"2025-10-27T05:57:20.000Z","currentStock":22,"id":"658a3b8d-a1d3-4aa8-a25b-44786d860e7b","initialStock":22,"name":"Gamis dior zahra songket","sellPrice":240000}
+[00:06:57.805] Browser LOG     📂 Categories API response status: 200
+[00:06:57.805] Browser LOG     📂 Categories data received: 17 items
+[00:06:57.805] Browser LOG     ✅ Data fetched successfully
+[00:12:08.588] Server  LOG     Looking for transaction with code: "b05d6b1d"
+[00:12:08.590] Server  LOG     Found transaction: {}
+[00:12:08.593] Server  LOG     Found items: [{...}]
+[00:12:10.631] Browser LOG     Fetching transaction detail for code: b05d6b1d
+[00:12:10.631] Browser LOG     Response status: 200
+[00:12:10.631] Browser LOG     Transaction data: {"cashAmount":135000,"cashierName":"Administrator","code":"b05d6b1d","createdAt":"2025-11-09T06:06:14.000Z","id":"13b88e3d-ecd8-45ba-84cd-f521061cb740","items":[{"createdAt":"2025-11-11T02:15:23.000Z","discountAmount":0,"discountPercent":0,"id":"c8b87597-3f50-485e-89ba-fbd4032548c1","price":135000,"product":{"barcode":"GF18975","id":"916a5fa6-206a-475e-8ef3-a17182999c39","name":"Kaos A162 BASIC","sellPrice":135000},"productBarcode":"GF18975","productName":"Kaos A162 BASIC","quantity":1,"transactionCode":"b05d6b1d"}],"paymentStatus":"PAID","subtotal":135000,"totalAmount":135000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-09T06:06:14.000Z","transferAmount":0,"updatedAt":"2025-11-11T02:15:23.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[00:12:10.631] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:12:10.631] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:12:57.592] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:12:57.593] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:13:10.096] Server  LOG     🗑️ Clearing existing data...
+[00:13:10.139] Server  LOG     ✅ Existing data cleared
+[00:13:10.140] Server  LOG     📂 Restoring 17 categories...
+[00:13:10.206] Server  LOG     ✅ Categories restored: 17
+[00:13:10.206] Server  LOG     👤 Skipping users restore (keeping existing users for security)
+[00:13:10.207] Server  LOG     📦 Restoring 743 products...
+[00:13:12.046] Server  LOG     ✅ Products restored: 743
+[00:13:12.051] Server  LOG     📦 Restoring 1211 transactions...
+[00:13:15.253] Server  LOG     ✅ Transactions restored: 1211
+[00:13:15.254] Server  LOG     📦 Restoring 1984 outgoing items...
+[00:13:19.767] Server  LOG     ✅ Outgoing Items restored: 1984
+[00:13:23.284] Browser LOG     Restore errors: ["Setting logoUrl: value.getTime is not a function","Setting storeName: value.getTime is not a function","Setting storeAddress: value.getTime is not a function","Setting storePhone: value.getTime is not a function","Setting storeEmail: value.getTime is not a function","Setting currency: value.getTime is not a function","Setting taxRate: value.getTime is not a function","Setting thermalPrinterSize: value.getTime is not a function"]
+[00:13:39.142] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:39.518] Browser LOG     SW registered:  {}
+[00:15:27.006] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:15:27.006] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:15:42.450] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:15:42.450] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:16:39.788] Server  LOG     Looking for transaction with code: "TRX1762839228207"
+[00:16:39.790] Server  LOG     Found transaction: {}
+[00:16:39.792] Server  LOG     Found items: [{...}]
+[00:16:41.673] Browser LOG     Fetching transaction detail for code: TRX1762839228207
+[00:16:41.673] Browser LOG     Response status: 200
+[00:16:41.673] Browser LOG     Transaction data: {"cashAmount":120000,"cashierName":"Administrator","code":"TRX1762839228207","createdAt":"2025-11-11T05:33:48.000Z","id":"6d1e5f18-2dad-404e-89ec-d1cbd65c53f6","items":[{"createdAt":"2025-11-11T05:33:48.000Z","discountAmount":0,"discountPercent":0,"id":"e963987d-74e9-4f5c-a56f-01fb3151d446","price":120000,"product":{"barcode":"GF13334","id":"27b91944-7578-4b75-82f4-bbd80eb2c6ad","name":"PB PJ J2043 A","sellPrice":120000},"productBarcode":"GF13334","productName":"PB PJ J2043 A","quantity":1,"transactionCode":"TRX1762839228207"}],"paymentStatus":"PAID","subtotal":120000,"totalAmount":120000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T05:33:48.000Z","transferAmount":0,"updatedAt":"2025-11-11T05:33:48.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[00:16:41.674] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:16:41.674] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:18:16.657] Server  LOG     Looking for transaction with code: "TRX1762839228207"
+[00:18:16.658] Server  LOG     Found transaction: {}
+[00:18:16.660] Server  LOG     Found items: [{...}]
+[00:18:18.483] Browser LOG     Fetching transaction detail for code: TRX1762839228207
+[00:18:18.483] Browser LOG     Response status: 200
+[00:18:18.483] Browser LOG     Transaction data: {"cashAmount":120000,"cashierName":"Administrator","code":"TRX1762839228207","createdAt":"2025-11-11T05:33:48.000Z","id":"6d1e5f18-2dad-404e-89ec-d1cbd65c53f6","items":[{"createdAt":"2025-11-11T05:33:48.000Z","discountAmount":0,"discountPercent":0,"id":"e963987d-74e9-4f5c-a56f-01fb3151d446","price":120000,"product":{"barcode":"GF13334","id":"27b91944-7578-4b75-82f4-bbd80eb2c6ad","name":"PB PJ J2043 A","sellPrice":120000},"productBarcode":"GF13334","productName":"PB PJ J2043 A","quantity":1,"transactionCode":"TRX1762839228207"}],"paymentStatus":"PAID","subtotal":120000,"totalAmount":120000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T05:33:48.000Z","transferAmount":0,"updatedAt":"2025-11-11T05:33:48.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[00:18:18.483] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:18:18.483] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:05:58.218] Server  LOG     Looking for transaction with code: "TRX1762839228207"
+[08:05:58.224] Server  LOG     Found transaction: {}
+[08:05:58.226] Server  LOG     Found items: [{...}]
+[08:06:00.559] Browser LOG     Fetching transaction detail for code: TRX1762839228207
+[08:06:00.559] Browser LOG     Response status: 200
+[08:06:00.559] Browser LOG     Transaction data: {"cashAmount":120000,"cashierName":"Administrator","code":"TRX1762839228207","createdAt":"2025-11-11T05:33:48.000Z","id":"6d1e5f18-2dad-404e-89ec-d1cbd65c53f6","items":[{"createdAt":"2025-11-11T05:33:48.000Z","discountAmount":0,"discountPercent":0,"id":"e963987d-74e9-4f5c-a56f-01fb3151d446","price":120000,"product":{"barcode":"GF13334","id":"27b91944-7578-4b75-82f4-bbd80eb2c6ad","name":"PB PJ J2043 A","sellPrice":120000},"productBarcode":"GF13334","productName":"PB PJ J2043 A","quantity":1,"transactionCode":"TRX1762839228207"}],"paymentStatus":"PAID","subtotal":120000,"totalAmount":120000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T05:33:48.000Z","transferAmount":0,"updatedAt":"2025-11-11T05:33:48.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:06:00.559] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:06:00.559] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:06:22.651] Server  LOG     Looking for transaction with code: "TRX1762839228207"
+[08:06:22.653] Server  LOG     Found transaction: {}
+[08:06:22.655] Server  LOG     Found items: [{...}]
+[08:06:24.694] Browser LOG     Fetching transaction detail for code: TRX1762839228207
+[08:06:24.694] Browser LOG     Response status: 200
+[08:06:24.694] Browser LOG     Transaction data: {"cashAmount":120000,"cashierName":"Administrator","code":"TRX1762839228207","createdAt":"2025-11-11T05:33:48.000Z","id":"6d1e5f18-2dad-404e-89ec-d1cbd65c53f6","items":[{"createdAt":"2025-11-11T05:33:48.000Z","discountAmount":0,"discountPercent":0,"id":"e963987d-74e9-4f5c-a56f-01fb3151d446","price":120000,"product":{"barcode":"GF13334","id":"27b91944-7578-4b75-82f4-bbd80eb2c6ad","name":"PB PJ J2043 A","sellPrice":120000},"productBarcode":"GF13334","productName":"PB PJ J2043 A","quantity":1,"transactionCode":"TRX1762839228207"}],"paymentStatus":"PAID","subtotal":120000,"totalAmount":120000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T05:33:48.000Z","transferAmount":0,"updatedAt":"2025-11-11T05:33:48.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:06:24.694] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:06:24.694] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:06:53.170] Server  LOG     Looking for transaction with code: "TRX1762839228207"
+[08:06:53.172] Server  LOG     Found transaction: {}
+[08:06:53.174] Server  LOG     Found items: [{...}]
+[08:06:55.021] Browser LOG     Fetching transaction detail for code: TRX1762839228207
+[08:06:55.021] Browser LOG     Response status: 200
+[08:06:55.021] Browser LOG     Transaction data: {"cashAmount":120000,"cashierName":"Administrator","code":"TRX1762839228207","createdAt":"2025-11-11T05:33:48.000Z","id":"6d1e5f18-2dad-404e-89ec-d1cbd65c53f6","items":[{"createdAt":"2025-11-11T05:33:48.000Z","discountAmount":0,"discountPercent":0,"id":"e963987d-74e9-4f5c-a56f-01fb3151d446","price":120000,"product":{"barcode":"GF13334","id":"27b91944-7578-4b75-82f4-bbd80eb2c6ad","name":"PB PJ J2043 A","sellPrice":120000},"productBarcode":"GF13334","productName":"PB PJ J2043 A","quantity":1,"transactionCode":"TRX1762839228207"}],"paymentStatus":"PAID","subtotal":120000,"totalAmount":120000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T05:33:48.000Z","transferAmount":0,"updatedAt":"2025-11-11T05:33:48.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:06:55.021] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:06:55.021] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:08:20.798] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:08:21.003] Browser LOG     SW registered:  {}
+[08:36:22.004] Server  LOG     Looking for transaction with code: "TRX1762739730925"
+[08:36:22.011] Server  LOG     Found transaction: {}
+[08:36:22.014] Server  LOG     Found items: [{...},{...}]
+[08:36:24.285] Browser LOG     Fetching transaction detail for code: TRX1762739730925
+[08:36:24.285] Browser LOG     Response status: 200
+[08:36:24.285] Browser LOG     Transaction data: {"cashAmount":0,"cashierName":"Administrator","code":"TRX1762739730925","createdAt":"2025-11-10T01:55:30.000Z","id":"dea88940-df94-4f3a-8425-a8940bbcec04","items":[{"createdAt":"2025-11-11T13:48:23.000Z","discountAmount":110000,"discountPercent":0,"id":"28becace-4820-4666-9e22-ef69df88f11d","price":0,"product":{"barcode":"GF69773","id":"6ade1b64-ad35-47ef-900c-0821e9cab000","name":"KEMEJA Tunik PUTIH 8347","sellPrice":110000},"productBarcode":"GF69773","productName":"KEMEJA Tunik PUTIH 8347","quantity":110000,"transactionCode":"TRX1762739730925"},{"createdAt":"2025-11-11T13:48:23.000Z","discountAmount":50000,"discountPercent":0,"id":"d12c2751-6593-42fc-831d-a2963d16ce3c","price":0,"product":{"barcode":"GF31000","id":"dcaadab9-c871-4ee5-bc83-c2aef3e46f09","name":"Stelan ANAK 180","sellPrice":50000},"productBarcode":"GF31000","productName":"Stelan ANAK 180","quantity":50000,"transactionCode":"TRX1762739730925"}],"paymentStatus":"PAID","subtotal":0,"totalAmount":0,"totalDiscount":160000,"totalItems":160000,"transactionDate":"2025-11-10T01:55:30.000Z","transferAmount":0,"updatedAt":"2025-11-11T13:48:23.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:36:24.285] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:36:24.285] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:43:30.116] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:43:30.346] Browser LOG     SW registered:  {}
+[08:44:47.292] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:44:47.784] Browser LOG     SW registered:  {}
+[08:45:02.821] Server  LOG     Looking for transaction with code: "TRX1762739730925"
+[08:45:02.824] Server  LOG     Found transaction: {}
+[08:45:02.829] Server  LOG     Found items: [{...},{...}]
+[08:45:05.791] Browser LOG     Fetching transaction detail for code: TRX1762739730925
+[08:45:05.791] Browser LOG     Response status: 200
+[08:45:05.791] Browser LOG     Transaction data: {"cashAmount":0,"cashierName":"Administrator","code":"TRX1762739730925","createdAt":"2025-11-10T01:55:30.000Z","id":"4f85f578-597f-41f9-a5ec-dddc237b0112","items":[{"createdAt":"2025-11-11T14:02:32.000Z","discountAmount":110000,"discountPercent":0,"id":"7181fdfb-457b-455b-a871-465878e4cefb","price":0,"product":{"barcode":"GF69773","id":"6ade1b64-ad35-47ef-900c-0821e9cab000","name":"KEMEJA Tunik PUTIH 8347","sellPrice":110000},"productBarcode":"GF69773","productName":"KEMEJA Tunik PUTIH 8347","quantity":110000,"transactionCode":"TRX1762739730925"},{"createdAt":"2025-11-11T14:02:32.000Z","discountAmount":50000,"discountPercent":0,"id":"af63d7f9-a5fc-49e4-86b1-d8f88f14882c","price":0,"product":{"barcode":"GF31000","id":"dcaadab9-c871-4ee5-bc83-c2aef3e46f09","name":"Stelan ANAK 180","sellPrice":50000},"productBarcode":"GF31000","productName":"Stelan ANAK 180","quantity":50000,"transactionCode":"TRX1762739730925"}],"paymentStatus":"PAID","subtotal":0,"totalAmount":0,"totalDiscount":160000,"totalItems":160000,"transactionDate":"2025-11-10T01:55:30.000Z","transferAmount":0,"updatedAt":"2025-11-11T14:02:32.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:45:05.791] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:45:05.791] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:45:24.872] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:45:25.300] Browser LOG     SW registered:  {}
+[08:45:38.055] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:45:38.258] Browser LOG     SW registered:  {}
+[08:47:47.838] Server  LOG     Looking for transaction with code: "TRX1762739730925"
+[08:47:47.840] Server  LOG     Found transaction: {}
+[08:47:47.842] Server  LOG     Found items: [{...},{...}]
+[08:47:50.196] Browser LOG     Fetching transaction detail for code: TRX1762739730925
+[08:47:50.196] Browser LOG     Response status: 200
+[08:47:50.196] Browser LOG     Transaction data: {"cashAmount":0,"cashierName":"Administrator","code":"TRX1762739730925","createdAt":"2025-11-10T01:55:30.000Z","id":"4f85f578-597f-41f9-a5ec-dddc237b0112","items":[{"createdAt":"2025-11-11T14:02:32.000Z","discountAmount":110000,"discountPercent":0,"id":"7181fdfb-457b-455b-a871-465878e4cefb","price":0,"product":{"barcode":"GF69773","id":"6ade1b64-ad35-47ef-900c-0821e9cab000","name":"KEMEJA Tunik PUTIH 8347","sellPrice":110000},"productBarcode":"GF69773","productName":"KEMEJA Tunik PUTIH 8347","quantity":110000,"transactionCode":"TRX1762739730925"},{"createdAt":"2025-11-11T14:02:32.000Z","discountAmount":50000,"discountPercent":0,"id":"af63d7f9-a5fc-49e4-86b1-d8f88f14882c","price":0,"product":{"barcode":"GF31000","id":"dcaadab9-c871-4ee5-bc83-c2aef3e46f09","name":"Stelan ANAK 180","sellPrice":50000},"productBarcode":"GF31000","productName":"Stelan ANAK 180","quantity":50000,"transactionCode":"TRX1762739730925"}],"paymentStatus":"PAID","subtotal":0,"totalAmount":0,"totalDiscount":160000,"totalItems":160000,"transactionDate":"2025-11-10T01:55:30.000Z","transferAmount":0,"updatedAt":"2025-11-11T14:02:32.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:47:50.196] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:47:50.196] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:56:45.487] Server  LOG     Looking for transaction with code: "141798fd"
+[08:56:45.496] Server  LOG     Found transaction: {}
+[08:56:45.498] Server  LOG     Found items: [{...},{...}]
+[08:56:48.308] Browser LOG     Fetching transaction detail for code: 141798fd
+[08:56:48.308] Browser LOG     Response status: 200
+[08:56:48.308] Browser LOG     Transaction data: {"cashAmount":50000,"cashierName":"Administrator","code":"141798fd","createdAt":"2025-11-08T11:36:56.000Z","id":"53d748ac-e014-471c-b740-5b22c7be7ed8","items":[{"createdAt":"2025-11-11T02:15:23.000Z","discountAmount":0,"discountPercent":0,"id":"88d4bfdf-6a26-4596-ba5a-50889ae542cf","price":50000,"product":{"barcode":"GF40479","id":"dcff65af-d5fd-4f4c-a926-66be1200f323","name":"Kemeja anak 204","sellPrice":50000},"productBarcode":"GF40479","productName":"Kemeja anak 204","quantity":1,"transactionCode":"141798fd"},{"createdAt":"2025-11-11T02:15:23.000Z","discountAmount":0,"discountPercent":0,"id":"1df1606b-ddfe-4e95-8a29-2101a60952dd","price":40000,"product":{"barcode":"GF22257","id":"f10567d8-0958-42ee-bda6-2244945b7807","name":"Kaos Anak 216","sellPrice":40000},"productBarcode":"GF22257","productName":"Kaos Anak 216","quantity":1,"transactionCode":"141798fd"}],"paymentStatus":"PAID","subtotal":90000,"totalAmount":50000,"totalDiscount":0,"totalItems":2,"transactionDate":"2025-11-08T11:36:56.000Z","transferAmount":0,"updatedAt":"2025-11-11T02:15:23.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:56:48.308] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:56:48.308] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:56:51.104] Server  LOG     Looking for transaction with code: "141798fd"
+[08:56:51.110] Server  LOG     Found transaction: {}
+[08:56:51.114] Server  LOG     Found items: [{...},{...}]
+[08:56:53.090] Browser LOG     Fetching transaction detail for code: 141798fd
+[08:56:53.090] Browser LOG     Response status: 200
+[08:56:53.090] Browser LOG     Transaction data: {"cashAmount":50000,"cashierName":"Administrator","code":"141798fd","createdAt":"2025-11-08T11:36:56.000Z","id":"53d748ac-e014-471c-b740-5b22c7be7ed8","items":[{"createdAt":"2025-11-11T02:15:23.000Z","discountAmount":0,"discountPercent":0,"id":"88d4bfdf-6a26-4596-ba5a-50889ae542cf","price":50000,"product":{"barcode":"GF40479","id":"dcff65af-d5fd-4f4c-a926-66be1200f323","name":"Kemeja anak 204","sellPrice":50000},"productBarcode":"GF40479","productName":"Kemeja anak 204","quantity":1,"transactionCode":"141798fd"},{"createdAt":"2025-11-11T02:15:23.000Z","discountAmount":0,"discountPercent":0,"id":"1df1606b-ddfe-4e95-8a29-2101a60952dd","price":40000,"product":{"barcode":"GF22257","id":"f10567d8-0958-42ee-bda6-2244945b7807","name":"Kaos Anak 216","sellPrice":40000},"productBarcode":"GF22257","productName":"Kaos Anak 216","quantity":1,"transactionCode":"141798fd"}],"paymentStatus":"PAID","subtotal":90000,"totalAmount":50000,"totalDiscount":0,"totalItems":2,"transactionDate":"2025-11-08T11:36:56.000Z","transferAmount":0,"updatedAt":"2025-11-11T02:15:23.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:56:53.090] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:56:53.090] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:57:20.365] Server  LOG     Looking for transaction with code: "1c0065fe"
+[08:57:20.366] Server  LOG     Found transaction: {}
+[08:57:20.372] Server  LOG     Found items: [{...},{...}]
+[08:57:22.599] Browser LOG     Fetching transaction detail for code: 1c0065fe
+[08:57:22.599] Browser LOG     Response status: 200
+[08:57:22.599] Browser LOG     Transaction data: {"cashAmount":240000,"cashierName":"Administrator","code":"1c0065fe","createdAt":"2025-11-02T02:57:20.000Z","id":"54145a18-5713-44ad-9a45-aa6793a817c7","items":[{"createdAt":"2025-11-11T02:15:23.000Z","discountAmount":0,"discountPercent":0,"id":"87a24a99-7b19-4b8f-85b9-9b44af154848","price":240000,"product":{"barcode":"GF44619","id":"f955b767-f5b3-485c-a445-64404dbcf22f","name":"RZ 469 013 1-B","sellPrice":240000},"productBarcode":"GF44619","productName":"RZ 469 013 1-B","quantity":1,"transactionCode":"1c0065fe"},{"createdAt":"2025-11-11T02:15:23.000Z","discountAmount":0,"discountPercent":0,"id":"8c2ec81f-40a8-4b59-b550-3832cc2587f3","price":240000,"product":{"barcode":"GF5711","id":"5411b69a-dc83-45fa-8810-55bca015d41d","name":"CNT 2243 PDK KNIT","sellPrice":240000},"productBarcode":"GF5711","productName":"CNT 2243 PDK KNIT","quantity":1,"transactionCode":"1c0065fe"}],"paymentStatus":"PAID","subtotal":480000,"totalAmount":240000,"totalDiscount":0,"totalItems":2,"transactionDate":"2025-11-02T02:57:20.000Z","transferAmount":0,"updatedAt":"2025-11-11T02:15:23.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[08:57:22.599] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[08:57:22.599] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:51:26.056] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[10:51:26.305] Browser LOG     SW registered:  {}
+[10:53:28.221] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[10:53:28.377] Browser LOG     SW registered:  {}
+[10:54:05.100] Server  LOG     Looking for transaction with code: "TRX1762841114028"
+[10:54:05.103] Server  LOG     Found transaction: {}
+[10:54:05.106] Server  LOG     Found items: [{...}]
+[10:54:07.438] Browser LOG     Fetching transaction detail for code: TRX1762841114028
+[10:54:07.438] Browser LOG     Response status: 200
+[10:54:07.438] Browser LOG     Transaction data: {"cashAmount":185000,"cashierName":"Administrator","code":"TRX1762841114028","createdAt":"2025-11-11T06:05:14.000Z","id":"40df7b9e-948f-4a4b-917b-69167e863751","items":[{"createdAt":"2025-11-11T16:11:03.000Z","discountAmount":0,"discountPercent":0,"id":"b772eaa4-7deb-434f-a668-4939a3e6c0e6","price":185000,"product":{"barcode":"GF5463","id":"361fceff-c992-4912-8a9e-4588ea78e12b","name":"METISS 8025","sellPrice":185000},"productBarcode":"GF5463","productName":"METISS 8025","quantity":1,"transactionCode":"TRX1762841114028"}],"paymentStatus":"PAID","subtotal":185000,"totalAmount":185000,"totalDiscount":0,"totalItems":1,"transactionDate":"2025-11-11T06:05:14.000Z","transferAmount":0,"updatedAt":"2025-11-11T16:11:03.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[10:54:07.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:54:07.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:54:20.474] Server  LOG     Looking for transaction with code: "TRX1762739730925"
+[10:54:20.475] Server  LOG     Found transaction: {}
+[10:54:20.477] Server  LOG     Found items: [{...},{...}]
+[10:54:22.411] Browser LOG     Fetching transaction detail for code: TRX1762739730925
+[10:54:22.411] Browser LOG     Response status: 200
+[10:54:22.411] Browser LOG     Transaction data: {"cashAmount":160000,"cashierName":"Administrator","code":"TRX1762739730925","createdAt":"2025-11-10T01:55:30.000Z","id":"61e6f55a-51fb-44c9-87bb-e431998090e7","items":[{"createdAt":"2025-11-11T16:11:03.000Z","discountAmount":0,"discountPercent":0,"id":"cfe40afc-a2fe-4a0d-b375-42647e0675d9","price":110000,"product":{"barcode":"GF69773","id":"6ade1b64-ad35-47ef-900c-0821e9cab000","name":"KEMEJA Tunik PUTIH 8347","sellPrice":110000},"productBarcode":"GF69773","productName":"KEMEJA Tunik PUTIH 8347","quantity":1,"transactionCode":"TRX1762739730925"},{"createdAt":"2025-11-11T16:11:03.000Z","discountAmount":0,"discountPercent":0,"id":"39ea89ed-800d-4a29-8cfb-e40a89bec954","price":50000,"product":{"barcode":"GF31000","id":"dcaadab9-c871-4ee5-bc83-c2aef3e46f09","name":"Stelan ANAK 180","sellPrice":50000},"productBarcode":"GF31000","productName":"Stelan ANAK 180","quantity":1,"transactionCode":"TRX1762739730925"}],"paymentStatus":"PAID","subtotal":160000,"totalAmount":160000,"totalDiscount":0,"totalItems":2,"transactionDate":"2025-11-10T01:55:30.000Z","transferAmount":0,"updatedAt":"2025-11-11T16:11:03.000Z","user":{"email":"admin@gitafashion.com","id":"c5c38a4b-2341-4b5c-9feb-fc2599819d78","name":"Administrator","role":"ADMIN"},"userId":"c5c38a4b-2341-4b5c-9feb-fc2599819d78"}
+[10:54:22.411] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:54:22.411] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:55:41.691] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:55:41.691] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:55:47.306] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:55:47.306] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:56:15.331] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:56:15.331] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:57:05.783] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:57:05.783] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[10:57:46.065] Server  LOG     🗑️ Clearing existing data...
+[10:57:46.124] Server  LOG     ✅ Existing data cleared
+[10:57:46.126] Server  LOG     📂 Restoring 17 categories...
+[10:57:46.228] Server  LOG     ✅ Categories restored: 17
+[10:57:46.228] Server  LOG     👤 Skipping users restore (keeping existing users for security)
+[10:57:46.229] Server  LOG     📦 Restoring 743 products...
+[10:57:48.311] Server  LOG     ✅ Products restored: 743
+[10:57:48.315] Server  LOG     📦 Restoring 1215 transactions...
+[10:57:51.501] Server  LOG     ✅ Transactions restored: 1215
+[10:57:51.502] Server  LOG     📦 Restoring 1989 outgoing items...
+[10:57:55.977] Server  LOG     ✅ Outgoing Items restored: 1989
+[10:58:01.769] Browser LOG     Restore errors: ["Setting logoUrl: value.getTime is not a function","Setting storeName: value.getTime is not a function","Setting storeAddress: value.getTime is not a function","Setting storePhone: value.getTime is not a function","Setting storeEmail: value.getTime is not a function","Setting currency: value.getTime is not a function","Setting taxRate: value.getTime is not a function","Setting thermalPrinterSize: value.getTime is not a function"]
+[10:58:10.382] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[10:58:10.486] Browser LOG     SW registered:  {}
+[10:58:22.333] Browser LOG     🔄 Fetching products and categories...
+[10:58:22.333] Browser LOG     📦 Fetching products from API...
+[10:58:22.333] Browser LOG     📂 Fetching categories from API...
+[10:58:22.333] Browser LOG     🔄 Fetching products and categories...
+[10:58:22.333] Browser LOG     📦 Fetching products from API...
+[10:58:22.333] Browser LOG     📂 Fetching categories from API...
+[10:58:25.414] Browser LOG     📦 Products API response status: 200
+[10:58:25.414] Browser LOG     📂 Categories API response status: 200
+[10:58:25.414] Browser LOG     📦 Products data received: 743 items
+[10:58:25.414] Browser LOG     📦 Sample product: {"barcode":"GF75631","category":"Gamis","categoryId":"c7b32efb-90ff-4ee8-a8a1-deb82203fa21","createdAt":"2025-10-27T05:57:20.000Z","currentStock":22,"id":"658a3b8d-a1d3-4aa8-a25b-44786d860e7b","initialStock":22,"name":"Gamis dior zahra songket","sellPrice":240000}
+[10:58:25.414] Browser LOG     📂 Categories data received: 17 items
+[10:58:25.414] Browser LOG     ✅ Data fetched successfully
+[10:58:25.414] Browser LOG     📦 Products API response status: 200
+[10:58:25.414] Browser LOG     📂 Categories API response status: 200
+[10:58:25.414] Browser LOG     📂 Categories data received: 17 items
+[10:58:25.788] Browser LOG     📦 Products data received: 743 items
+[10:58:25.788] Browser LOG     📦 Sample product: {"barcode":"GF75631","category":"Gamis","categoryId":"c7b32efb-90ff-4ee8-a8a1-deb82203fa21","createdAt":"2025-10-27T05:57:20.000Z","currentStock":22,"id":"658a3b8d-a1d3-4aa8-a25b-44786d860e7b","initialStock":22,"name":"Gamis dior zahra songket","sellPrice":240000}
+[10:58:25.788] Browser LOG     ✅ Data fetched successfully
+[11:26:42.485] Server  LOG      ✓ Compiled in 974ms
+[11:29:09.411] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[11:29:10.189] Browser LOG     SW registered:  {}
+[11:31:25.410] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[11:31:25.410] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[11:32:02.571] Server  LOG     🗑️ Clearing existing data...
+[11:32:02.612] Server  LOG     ✅ Existing data cleared
+[11:32:02.617] Server  LOG     📂 Restoring 17 categories...
+[11:32:02.801] Server  LOG     ✅ Categories restored: 17
+[11:32:02.801] Server  LOG     👤 Skipping users restore (keeping existing users for security)
+[11:32:02.803] Server  LOG     📦 Restoring 743 products...
+[11:32:05.748] Server  LOG     ✅ Products restored: 743
+[11:32:05.752] Server  LOG     📦 Restoring 1215 transactions...
+[11:32:09.143] Server  LOG     ✅ Transactions restored: 1215
+[11:32:09.143] Server  LOG     📦 Restoring 1989 outgoing items...
+[11:32:14.093] Server  LOG     ✅ Outgoing Items restored: 1989
+[11:32:18.230] Browser LOG     Restore errors: ["Setting logoUrl: value.getTime is not a function","Setting storeName: value.getTime is not a function","Setting storeAddress: value.getTime is not a function","Setting storePhone: value.getTime is not a function","Setting storeEmail: value.getTime is not a function","Setting currency: value.getTime is not a function","Setting taxRate: value.getTime is not a function","Setting thermalPrinterSize: value.getTime is not a function"]
+[11:33:02.118] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[11:33:02.297] Browser LOG     SW registered:  {}
+[11:33:21.410] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[11:33:21.410] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[11:34:52.486] Server  LOG     🗑️ Clearing existing data...
+[11:34:52.519] Server  LOG     ✅ Existing data cleared
+[11:34:52.519] Server  LOG     📂 Restoring 17 categories...
+[11:34:52.670] Server  LOG     ✅ Categories restored: 17
+[11:34:52.671] Server  LOG     👤 Skipping users restore (keeping existing users for security)
+[11:34:52.671] Server  LOG     📦 Restoring 743 products...
+[11:34:55.067] Server  LOG     ✅ Products restored: 743
+[11:34:55.069] Server  LOG     📦 Restoring 0 transactions...
+[11:34:55.070] Server  LOG     ✅ Transactions restored: 0
+[11:34:55.070] Server  LOG     📦 Restoring 0 outgoing items...
+[11:34:55.071] Server  LOG     ✅ Outgoing Items restored: 0
+[11:34:58.275] Browser LOG     Restore errors: ["Setting logoUrl: value.getTime is not a function","Setting storeName: value.getTime is not a function","Setting storeAddress: value.getTime is not a function","Setting storePhone: value.getTime is not a function","Setting storeEmail: value.getTime is not a function","Setting currency: value.getTime is not a function","Setting taxRate: value.getTime is not a function","Setting thermalPrinterSize: value.getTime is not a function"]
+[11:35:09.387] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[11:35:09.792] Browser LOG     SW registered:  {}
+[11:38:19.692] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[11:38:19.865] Browser LOG     SW registered:  {}
+[11:38:35.796] Server  WARN    Skipping row with missing code: {}
+[11:38:35.796] Server  WARN    Skipping row with missing code: {}
+[11:40:24.819] Server  WARN    Row 2: Missing code
+[11:40:24.819] Server  WARN    Row 3: Missing code
+[11:40:37.467] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[11:40:37.839] Browser LOG     SW registered:  {}
+[11:41:03.356] Server  WARN    Row 2: Missing code
+[11:41:03.357] Server  WARN    Row 3: Missing code
+[11:42:49.448] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[11:42:49.645] Browser LOG     SW registered:  {}
+[11:42:50.507] Browser WARN    Image with src "/api/uploads/logo-1762829622553.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[11:43:04.011] Server  LOG     CSV Headers: ["Kode Transaksi","Tanggal Transaksi","Total Item","Tunai","Transfer","Bank","Status","Tanggal Dibuat"]
+[11:43:04.012] Server  LOG     Parsed 2 rows from CSV
+[11:43:04.013] Server  LOG     First row sample: {}
+[11:43:04.014] Server  LOG     Row 2 data: {}
+[11:43:04.014] Server  WARN    Row 2: Missing code
+[11:43:04.015] Server  LOG     Row 3 data: {}
+[11:43:04.015] Server  WARN    Row 3: Missing code
+[11:43:04.016] Server  LOG     Grouped into 0 transactions
+[11:46:27.693] Server  LOG     CSV Headers: ["code","transactionDate","barcode","productName","quantity","price","discountPercent","discountAmount","cashAmount","transferAmount","bankName","paymentStatus"]
+[11:46:27.694] Server  LOG     CSV Format: {}
+[11:46:27.707] Server  LOG     Parsed 1990 rows from CSV
+[11:46:27.707] Server  LOG     First row sample: {}
+[11:46:27.708] Server  LOG     Row 2 data: {}
+[11:46:27.708] Server  LOG     Row 3 data: {}
+[11:46:27.709] Server  LOG     Row 4 data: {}
+[11:46:27.714] Server  LOG     Grouped into 1216 transactions
+[12:14:55.736] Server  LOG      ✓ Compiled in 932ms
+[12:15:16.182] Server  LOG      ✓ Compiled in 405ms
+[18:53:50.420] Server  LOG      ✓ Compiled in 409ms
+[18:54:08.022] Server  LOG      ✓ Compiled in 207ms
+[18:54:23.484] Server  LOG      ✓ Compiled in 370ms
+[19:20:45.968] Server  LOG      ✓ Compiled in 679ms
+[19:21:02.145] Server  LOG      ✓ Compiled in 1275ms
+[19:31:36.738] Server  LOG      ✓ Compiled in 841ms
+[19:31:48.885] Server  LOG      ✓ Compiled in 356ms

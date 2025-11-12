@@ -1,0 +1,3 @@
+{
+  "/api/database/clean-except-products/route": "app/api/database/clean-except-products/route.js"
+}

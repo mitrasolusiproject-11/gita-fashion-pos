@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "functions": {
+    "/api/auth/session": {},
+    "/api/backup": {},
+    "/api/auth/change-password": {},
+    "/api/dashboard": {},
+    "/api/debug/test-login": {},
+    "/api/auth/signin": {},
+    "/api/expenses/[id]": {},
+    "/api/export": {},
+    "/api/import/transactions": {},
+    "/api/expenses": {},
+    "/api/import": {},
+    "/api/init-db": {},
+    "/api/migrate-fk": {},
+    "/api/database/clean-except-products": {},
+    "/api/products": {},
+    "/api/categories": {},
+    "/api/reports/sales": {},
+    "/api/settings/public": {},
+    "/api/seed": {},
+    "/api/transactions/[code]": {},
+    "/api/auth/signout": {},
+    "/api/settings": {},
+    "/api/system/cleanup": {},
+    "/api/transactions/delete-range": {},
+    "/api/users/[id]": {},
+    "/api/transactions": {},
+    "/api/users": {},
+    "/api/uploads/[filename]": {},
+    "/api/restore": {},
+    "/api/shifts": {},
+    "/api/products/[barcode]": {},
+    "/_middleware": {
+      "runtime": "nodejs",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!api|_next\\/static|_next\\/image|favicon.ico).*))(\\.json)?[\\/#\\?]?$",
+          "originalSource": "/((?!api|_next/static|_next/image|favicon.ico).*)"
+        }
+      ]
+    }
+  }
+}

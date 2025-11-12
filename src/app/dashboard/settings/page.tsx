@@ -394,33 +394,24 @@ export default function SettingsPage() {
     }
   }
 
-  const handleDiskCleanup = async (action: string) => {
-    const confirmMsg = action === 'full' 
-      ? 'Jalankan full cleanup? Ini akan menghapus Docker images, cache, dan containers yang tidak terpakai.'
-      : 'Cek disk usage?'
-    
-    if (action !== 'check' && !confirm(confirmMsg)) {
-      return
-    }
-
+  const handleDiskCheck = async () => {
     try {
       const response = await fetch('/api/system/cleanup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action }),
         credentials: 'include'
       })
 
       const result = await response.json()
 
       if (response.ok) {
-        alert(`✅ ${result.message}`)
+        alert(result.message)
       } else {
-        alert(`❌ Cleanup gagal: ${result.error}`)
+        alert(`❌ Check gagal: ${result.error}`)
       }
     } catch (error) {
-      console.error('Error running cleanup:', error)
-      alert('Terjadi kesalahan saat menjalankan cleanup')
+      console.error('Error checking disk:', error)
+      alert('Terjadi kesalahan saat mengecek disk')
     }
   }
 
@@ -736,22 +727,14 @@ export default function SettingsPage() {
                   >
                     🔧 Fix Import Error (Run Migration)
                   </Button>
-                  <div className="grid grid-cols-2 gap-2 mb-2">
-                    <Button 
-                      variant="outline" 
-                      onClick={() => handleDiskCleanup('check')}
-                      size="sm"
-                    >
-                      📊 Check Disk
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => handleDiskCleanup('full')}
-                      size="sm"
-                    >
-                      🧹 Cleanup Disk
-                    </Button>
-                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleDiskCheck}
+                    className="w-full mb-2"
+                    size="sm"
+                  >
+                    📊 Check Disk Usage
+                  </Button>
                 </>
               )}
               <div className="grid grid-cols-2 gap-2">

@@ -12,52 +12,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { action } = await request.json()
-
-    let result = ''
-
-    switch (action) {
-      case 'check':
-        // Check disk usage
-        const diskUsage = await execAsync('df -h / | tail -1')
-        const dbSize = await execAsync('du -sh /app/data/sqlite.db 2>/dev/null || echo "N/A"').catch(() => ({ stdout: 'N/A' }))
-        
-        result = `Disk Usage:\n${diskUsage.stdout}\n\nDatabase Size:\n${dbSize.stdout}`
-        break
-
-      case 'docker-images':
-        // Remove unused Docker images
-        const imagesResult = await execAsync('docker image prune -af --filter "until=24h"')
-        result = `Docker images cleaned:\n${imagesResult.stdout}`
-        break
-
-      case 'docker-cache':
-        // Remove build cache
-        const cacheResult = await execAsync('docker builder prune -af --filter "until=24h"')
-        result = `Build cache cleaned:\n${cacheResult.stdout}`
-        break
-
-      case 'docker-containers':
-        // Remove stopped containers
-        const containersResult = await execAsync('docker container prune -f')
-        result = `Stopped containers removed:\n${containersResult.stdout}`
-        break
-
-      case 'full':
-        // Full cleanup
-        await execAsync('docker image prune -af --filter "until=24h"')
-        await execAsync('docker builder prune -af --filter "until=24h"')
-        await execAsync('docker container prune -f')
-        await execAsync('docker volume prune -f')
-        await execAsync('docker network prune -f')
-        
-        const finalDisk = await execAsync('df -h / | tail -1')
-        result = `Full cleanup completed!\n\nFinal disk usage:\n${finalDisk.stdout}`
-        break
-
-      default:
-        return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
-    }
+    // Only allow check action - cleanup must be done from Coolify/SSH
+    const diskUsage = await execAsync('df -h / 2>/dev/null || df -h').catch(() => ({ stdout: 'Unable to check' }))
+    const dbSize = await execAsync('du -sh /app/data/sqlite.db 2>/dev/null || du -sh sqlite.db 2>/dev/null || echo "N/A"').catch(() => ({ stdout: 'N/A' }))
+    const appSize = await execAsync('du -sh /app 2>/dev/null || du -sh . 2>/dev/null || echo "N/A"').catch(() => ({ stdout: 'N/A' }))
+    
+    const result = `📊 Disk Usage:\n${diskUsage.stdout}\n\n💾 Database Size:\n${dbSize.stdout}\n\n📁 App Size:\n${appSize.stdout}\n\n⚠️ To cleanup disk:\n1. Go to Coolify Dashboard\n2. Navigate to Server > Resources\n3. Click "Cleanup Unused Resources"\n\nOr via SSH:\ndocker system prune -a --volumes -f`
 
     return NextResponse.json({
       success: true,
@@ -65,9 +25,9 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Cleanup error:', error)
+    console.error('Check error:', error)
     return NextResponse.json({ 
-      error: 'Cleanup failed', 
+      error: 'Check failed', 
       details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 })
   }

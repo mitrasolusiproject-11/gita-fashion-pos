@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///Users/alifisk/project/gita-fashion-pos/src/app/api/auth/session/route.ts"],"sourcesContent":["import { NextRequest, NextResponse } from 'next/server'\n\nexport async function GET(request: NextRequest) {\n  try {\n    // Simple response for now - client will handle auth via localStorage\n    return NextResponse.json({ \n      user: null,\n      message: 'Use client-side auth check' \n    })\n  } catch (error) {\n    console.error('Session error:', error)\n    return NextResponse.json({ user: null })\n  }\n}\n\nexport const runtime = 'nodejs'"],"names":[],"mappings":";;;;;;AAAA;;AAEO,eAAe,IAAI,OAAoB;IAC5C,IAAI;QACF,qEAAqE;QACrE,OAAO,gJAAY,CAAC,IAAI,CAAC;YACvB,MAAM;YACN,SAAS;QACX;IACF,EAAE,OAAO,OAAO;QACd,QAAQ,KAAK,CAAC,kBAAkB;QAChC,OAAO,gJAAY,CAAC,IAAI,CAAC;YAAE,MAAM;QAAK;IACxC;AACF;AAEO,MAAM,UAAU","debugId":null}}]
+}
