@@ -33,6 +33,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# === TAMBAHKAN BARIS INI UNTUK MENYALIN FOLDER SRC ===
+COPY --from=builder /app/src ./src
+# ====================================================
+
 # Copy public folder
 COPY --from=builder /app/public ./public
 
