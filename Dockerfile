@@ -1,28 +1,3 @@
-# Dockerfile untuk Coolify deployment
-FROM node:20-alpine AS base
-
-# Install dependencies only when needed
-FROM base AS deps
-RUN apk add --no-cache libc6-compat python3 make g++
-WORKDIR /app
-
-# Install dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci
-
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
-# Generate Drizzle migrations
-RUN npm run db:generate
-
-# Build Next.js
-ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
-
 # Production image
 FROM base AS runner
 WORKDIR /app
@@ -33,33 +8,26 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# === TAMBAHKAN BARIS INI UNTUK MENYALIN FOLDER SRC ===
-COPY --from=builder /app/src ./src
-# ====================================================
-
 # Copy public folder
 COPY --from=builder /app/public ./public
 
 # Copy standalone output
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copy drizzle migrations and config
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./drizzle.config.ts
 
-# Copy node_modules for drizzle-kit
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
-
-# Copy package.json
+# Copy package.json & scripts
 COPY --from=builder /app/package.json ./package.json
-
-# Copy seed script
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/seed-production.js ./scripts/seed-production.js
-
-# Copy init script
 COPY --chown=nextjs:nodejs init-db.sh ./init-db.sh
 RUN chmod +x ./init-db.sh
+
+# === PASTIKAN BARIS INI ADA UNTUK MENYALIN FOLDER SRC DENGAN IZIN USER NEXTJS ===
+COPY --from=builder --chown=nextjs:nodejs /app/src ./src
 
 # Create data directory for SQLite and set ownership
 RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
