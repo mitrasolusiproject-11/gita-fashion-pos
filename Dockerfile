@@ -1,4 +1,29 @@
-# Production image
+# === STAGE 1: BASE DEPENDENCIES ===
+FROM node:20-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat python3 make g++
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# === STAGE 2: BUILDER ===
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Generate Drizzle migrations
+RUN npm run db:generate
+
+# Build Next.js
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN npm run build
+
+# === STAGE 3: RUNNER (PRODUCTION IMAGE) ===
 FROM base AS runner
 WORKDIR /app
 
@@ -11,7 +36,7 @@ RUN adduser --system --uid 1001 nextjs
 # Copy public folder
 COPY --from=builder /app/public ./public
 
-# Copy standalone output
+# Copy standalone output & node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
@@ -26,7 +51,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/scripts/seed-production.js ./scri
 COPY --chown=nextjs:nodejs init-db.sh ./init-db.sh
 RUN chmod +x ./init-db.sh
 
-# === PASTIKAN BARIS INI ADA UNTUK MENYALIN FOLDER SRC DENGAN IZIN USER NEXTJS ===
+# Copy src folder with nextjs user permissions
 COPY --from=builder --chown=nextjs:nodejs /app/src ./src
 
 # Create data directory for SQLite and set ownership
@@ -42,3 +67,4 @@ ENV DATABASE_URL="file:/app/data/sqlite.db"
 
 # Run init script then start server
 CMD sh ./init-db.sh && node server.js
+
