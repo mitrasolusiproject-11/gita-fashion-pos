@@ -7,7 +7,7 @@ echo "📍 DATABASE_URL: $DATABASE_URL"
 # Ensure data directory exists and is writable
 echo "📁 Creating /app/data directory..."
 mkdir -p /app/data
-chmod 755 /app/data
+chmod 755 /app/data 2>/dev/null || true
 
 # Test write permissions
 echo "✍️  Testing write permissions..."

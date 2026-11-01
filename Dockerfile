@@ -1,4 +1,4 @@
-# === STAGE 1: BASE DEPENDENCIES ===
+# Dockerfile untuk Coolify deployment
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed
@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# === STAGE 2: BUILDER ===
+# Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -23,7 +23,7 @@ RUN npm run db:generate
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
-# === STAGE 3: RUNNER (PRODUCTION IMAGE) ===
+# Production image
 FROM base AS runner
 WORKDIR /app
 
@@ -36,35 +36,41 @@ RUN adduser --system --uid 1001 nextjs
 # Copy public folder
 COPY --from=builder /app/public ./public
 
-# Copy standalone output & node_modules
+# Copy standalone output
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copy drizzle migrations and config
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./drizzle.config.ts
 
-# Copy package.json & scripts
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder --chown=nextjs:nodejs /app/scripts/seed-production.js ./scripts/seed-production.js
-COPY --chown=nextjs:nodejs init-db.sh ./init-db.sh
-RUN chmod +x ./init-db.sh
+# Copy node_modules for drizzle-kit
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 
-# Copy src folder with nextjs user permissions
-COPY --from=builder --chown=nextjs:nodejs /app/src ./src
+# Copy package.json
+COPY --from=builder /app/package.json ./package.json
+
+# Copy seed script
+COPY --from=builder --chown=nextjs:nodejs /app/scripts/seed-production.js ./scripts/seed-production.js
+
+# Copy init script and entrypoint
+COPY --chown=nextjs:nodejs init-db.sh ./init-db.sh
+COPY --chown=nextjs:nodejs docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./init-db.sh ./docker-entrypoint.sh
+
+# Install su-exec for privilege dropping in the entrypoint
+RUN apk add --no-cache su-exec
 
 # Create data directory for SQLite and set ownership
 RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
 
-USER nextjs
-
+# Runs as root: the entrypoint fixes /app/data ownership then drops to nextjs
 EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV DATABASE_URL="file:/app/data/sqlite.db"
 
-# Run init script then start server
-CMD sh ./init-db.sh && node server.js
-
+# Run entrypoint (fixes data dir ownership, drops privileges) then start server
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["sh", "-c", "./init-db.sh && node server.js"]

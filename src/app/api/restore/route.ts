@@ -12,6 +12,8 @@ import {
   expenses 
 } from '@/lib/schema'
 
+const CHUNK_SIZE = 100
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getSession(request)
@@ -48,6 +50,49 @@ export async function POST(request: NextRequest) {
     let restoredCount = 0
     const errors: string[] = []
 
+    // Map backup user IDs to local user IDs (matched by email, fallback by role)
+    // Needed because user restore is skipped, while transactions/shifts/expenses
+    // reference user IDs from the machine where the backup was taken.
+    const localUsers = await db.select().from(users)
+    const userIdMap = new Map<string, string>()
+    for (const backupUser of (data.users || [])) {
+      let localUser = localUsers.find((u) => u.email.toLowerCase() === (backupUser.email || '').toLowerCase())
+      if (!localUser) localUser = localUsers.find((u) => u.role === backupUser.role)
+      if (!localUser) localUser = localUsers.find((u) => u.role === 'ADMIN')
+      if (localUser) userIdMap.set(backupUser.id, localUser.id)
+    }
+    const fallbackUserId = localUsers.find((u) => u.role === 'ADMIN')?.id || localUsers[0]?.id
+    console.log(`👤 User mapping ready: ${userIdMap.size} users matched`)
+
+    /**
+     * Insert rows in chunks with a per-row fallback:
+     * fast when data is clean, granular error reporting when it is not.
+     */
+    const insertChunked = async (
+      rows: any[],
+      insertBatch: (chunk: any[]) => Promise<unknown>,
+      restoreRow: (row: any) => Promise<void>,
+      getLabel: (row: any) => string
+    ) => {
+      for (let i = 0; i < rows.length; i += CHUNK_SIZE) {
+        const chunk = rows.slice(i, i + CHUNK_SIZE)
+        try {
+          await insertBatch(chunk)
+          restoredCount += chunk.length
+        } catch (batchError) {
+          // Fallback: report only the individual failing rows
+          for (const row of chunk) {
+            try {
+              await restoreRow(row)
+              restoredCount++
+            } catch (error) {
+              errors.push(`${getLabel(row)}: ${error instanceof Error ? error.message : 'Unknown error'}`)
+            }
+          }
+        }
+      }
+    }
+
     try {
       // Clear existing data first (safer approach)
       console.log('🗑️ Clearing existing data...')
@@ -66,21 +111,20 @@ export async function POST(request: NextRequest) {
       // Restore in order to respect foreign key constraints
       
       // 1. Categories first (no dependencies)
-      if (data.categories && Array.isArray(data.categories)) {
+      if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {
         console.log(`📂 Restoring ${data.categories.length} categories...`)
-        for (const category of data.categories) {
-          try {
-            await db.insert(categories).values({
-              id: category.id,
-              name: category.name,
-              createdAt: new Date(category.createdAt),
-              updatedAt: new Date(category.updatedAt || category.createdAt)
-            })
-            restoredCount++
-          } catch (error) {
-            errors.push(`Category ${category.name}: ${error instanceof Error ? error.message : 'Unknown error'}`)
-          }
-        }
+        const categoryRows = data.categories.map((category: any) => ({
+          id: category.id,
+          name: category.name,
+          createdAt: new Date(category.createdAt),
+          updatedAt: new Date(category.updatedAt || category.createdAt)
+        }))
+        await insertChunked(
+          categoryRows,
+          async (chunk) => { await db.insert(categories).values(chunk) },
+          async (row) => { await db.insert(categories).values(row) },
+          (row) => `Category ${row.name}`
+        )
         console.log(`✅ Categories restored: ${data.categories.length}`)
       }
 
@@ -91,34 +135,38 @@ export async function POST(request: NextRequest) {
       // Admin can manually recreate users if needed
 
       // 3. Products (depends on categories)
-      if (data.products && Array.isArray(data.products)) {
+      if (data.products && Array.isArray(data.products) && data.products.length > 0) {
         console.log(`📦 Restoring ${data.products.length} products...`)
-        for (const product of data.products) {
-          try {
-            await db.insert(products).values({
-              id: product.id,
-              barcode: product.barcode,
-              name: product.name,
-              categoryId: product.categoryId,
-              initialStock: product.initialStock,
-              currentStock: product.currentStock,
-              sellPrice: product.sellPrice,
-              createdAt: new Date(product.createdAt),
-              updatedAt: new Date(product.updatedAt || product.createdAt)
-            })
-            restoredCount++
-          } catch (error) {
-            errors.push(`Product ${product.name}: ${error instanceof Error ? error.message : 'Unknown error'}`)
-          }
-        }
+        const productRows = data.products.map((product: any) => ({
+          id: product.id,
+          barcode: product.barcode,
+          name: product.name,
+          categoryId: product.categoryId,
+          initialStock: product.initialStock,
+          currentStock: product.currentStock,
+          sellPrice: product.sellPrice,
+          createdAt: new Date(product.createdAt),
+          updatedAt: new Date(product.updatedAt || product.createdAt)
+        }))
+        await insertChunked(
+          productRows,
+          async (chunk) => { await db.insert(products).values(chunk) },
+          async (row) => { await db.insert(products).values(row) },
+          (row) => `Product ${row.name}`
+        )
         console.log(`✅ Products restored: ${data.products.length}`)
       }
 
-      // 4. Settings
+      // 4. Settings (upsert by key, small dataset - keep per-row)
       if (data.settings && Array.isArray(data.settings)) {
         for (const setting of data.settings) {
           try {
-            await db.insert(settings).values(setting).onConflictDoUpdate({
+            const settingData = {
+              ...setting,
+              createdAt: setting.createdAt ? new Date(setting.createdAt) : new Date(),
+              updatedAt: setting.updatedAt ? new Date(setting.updatedAt) : new Date()
+            }
+            await db.insert(settings).values(settingData).onConflictDoUpdate({
               target: settings.key,
               set: {
                 value: setting.value,
@@ -133,94 +181,104 @@ export async function POST(request: NextRequest) {
       }
 
       // 5. Transactions (depends on users)
-      if (data.transactions && Array.isArray(data.transactions)) {
+      if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
         console.log(`📦 Restoring ${data.transactions.length} transactions...`)
-        for (const transaction of data.transactions) {
-          try {
-            // Convert date strings to Date objects
-            const transactionData = {
-              ...transaction,
-              transactionDate: transaction.transactionDate ? new Date(transaction.transactionDate) : null,
-              createdAt: transaction.createdAt ? new Date(transaction.createdAt) : new Date(),
-              updatedAt: transaction.updatedAt ? new Date(transaction.updatedAt) : new Date()
-            }
-            
-            await db.insert(transactions).values(transactionData).onConflictDoUpdate({
+        const transactionRows = data.transactions.map((transaction: any) => ({
+          ...transaction,
+          userId: userIdMap.get(transaction.userId) || fallbackUserId,
+          transactionDate: transaction.transactionDate ? new Date(transaction.transactionDate) : null,
+          createdAt: transaction.createdAt ? new Date(transaction.createdAt) : new Date(),
+          updatedAt: transaction.updatedAt ? new Date(transaction.updatedAt) : new Date()
+        }))
+        await insertChunked(
+          transactionRows,
+          async (chunk) => { await db.insert(transactions).values(chunk) },
+          async (row) => {
+            await db.insert(transactions).values(row).onConflictDoUpdate({
               target: transactions.code,
               set: {
-                totalItems: transactionData.totalItems,
-                cashAmount: transactionData.cashAmount,
-                transferAmount: transactionData.transferAmount,
-                bankName: transactionData.bankName,
-                paymentStatus: transactionData.paymentStatus,
+                totalItems: row.totalItems,
+                cashAmount: row.cashAmount,
+                transferAmount: row.transferAmount,
+                bankName: row.bankName,
+                paymentStatus: row.paymentStatus,
                 updatedAt: new Date()
               }
             })
-            restoredCount++
-          } catch (error) {
-            console.error(`❌ Transaction ${transaction.code}:`, error)
-            errors.push(`Transaction ${transaction.code}: ${error instanceof Error ? error.message : 'Unknown error'}`)
-          }
-        }
+          },
+          (row) => `Transaction ${row.code}`
+        )
         console.log(`✅ Transactions restored: ${data.transactions.length}`)
       }
 
       // 6. Outgoing Items (depends on transactions)
-      if (data.outgoingItems && Array.isArray(data.outgoingItems)) {
+      if (data.outgoingItems && Array.isArray(data.outgoingItems) && data.outgoingItems.length > 0) {
         console.log(`📦 Restoring ${data.outgoingItems.length} outgoing items...`)
-        for (const item of data.outgoingItems) {
-          try {
-            // Convert date strings to Date objects
-            const itemData = {
-              ...item,
-              date: item.date ? new Date(item.date) : new Date(),
-              createdAt: item.createdAt ? new Date(item.createdAt) : new Date()
-            }
-            
-            await db.insert(outgoingItems).values(itemData)
-            restoredCount++
-          } catch (error) {
-            console.error(`❌ Outgoing Item ${item.id}:`, error)
-            errors.push(`Outgoing Item ${item.id}: ${error instanceof Error ? error.message : 'Unknown error'}`)
-          }
-        }
+        const outgoingRows = data.outgoingItems.map((item: any) => ({
+          ...item,
+          date: item.date ? new Date(item.date) : new Date(),
+          createdAt: item.createdAt ? new Date(item.createdAt) : new Date()
+        }))
+        await insertChunked(
+          outgoingRows,
+          async (chunk) => { await db.insert(outgoingItems).values(chunk) },
+          async (row) => { await db.insert(outgoingItems).values(row) },
+          (row) => `Outgoing Item ${row.id}`
+        )
         console.log(`✅ Outgoing Items restored: ${data.outgoingItems.length}`)
       }
 
       // 7. Shifts (depends on users)
-      if (data.shifts && Array.isArray(data.shifts)) {
-        for (const shift of data.shifts) {
-          try {
-            await db.insert(shifts).values(shift).onConflictDoUpdate({
-              target: shifts.id,
-              set: {
-                endTime: shift.endTime,
-                endingCash: shift.endingCash,
-                totalSales: shift.totalSales,
-                totalTransactions: shift.totalTransactions,
-                totalExpenses: shift.totalExpenses,
-                status: shift.status,
-                notes: shift.notes,
-                updatedAt: new Date()
-              }
-            })
-            restoredCount++
-          } catch (error) {
-            errors.push(`Shift ${shift.id}: ${error instanceof Error ? error.message : 'Unknown error'}`)
-          }
+      if (data.shifts && Array.isArray(data.shifts) && data.shifts.length > 0) {
+        console.log(`📦 Restoring ${data.shifts.length} shifts...`)
+        const shiftRows = data.shifts.map((shift: any) => ({
+          ...shift,
+          userId: userIdMap.get(shift.userId) || fallbackUserId,
+          startTime: new Date(shift.startTime),
+          endTime: shift.endTime ? new Date(shift.endTime) : null,
+          createdAt: shift.createdAt ? new Date(shift.createdAt) : new Date(),
+          updatedAt: shift.updatedAt ? new Date(shift.updatedAt) : new Date()
+        }))
+        const restoreShiftRow = async (row: any) => {
+          await db.insert(shifts).values(row).onConflictDoUpdate({
+            target: shifts.id,
+            set: {
+              endTime: row.endTime,
+              endingCash: row.endingCash,
+              totalSales: row.totalSales,
+              totalTransactions: row.totalTransactions,
+              totalExpenses: row.totalExpenses,
+              status: row.status,
+              notes: row.notes,
+              updatedAt: new Date()
+            }
+          })
         }
+        await insertChunked(
+          shiftRows,
+          async (chunk) => { await db.insert(shifts).values(chunk) },
+          restoreShiftRow,
+          (row) => `Shift ${row.id}`
+        )
+        console.log(`✅ Shifts restored: ${data.shifts.length}`)
       }
 
       // 8. Expenses (depends on users and shifts)
-      if (data.expenses && Array.isArray(data.expenses)) {
-        for (const expense of data.expenses) {
-          try {
-            await db.insert(expenses).values(expense)
-            restoredCount++
-          } catch (error) {
-            errors.push(`Expense ${expense.id}: ${error instanceof Error ? error.message : 'Unknown error'}`)
-          }
-        }
+      if (data.expenses && Array.isArray(data.expenses) && data.expenses.length > 0) {
+        console.log(`📦 Restoring ${data.expenses.length} expenses...`)
+        const expenseRows = data.expenses.map((expense: any) => ({
+          ...expense,
+          userId: userIdMap.get(expense.userId) || fallbackUserId,
+          createdAt: expense.createdAt ? new Date(expense.createdAt) : new Date(),
+          updatedAt: expense.updatedAt ? new Date(expense.updatedAt) : new Date()
+        }))
+        await insertChunked(
+          expenseRows,
+          async (chunk) => { await db.insert(expenses).values(chunk) },
+          async (row) => { await db.insert(expenses).values(row) },
+          (row) => `Expense ${row.id}`
+        )
+        console.log(`✅ Expenses restored: ${data.expenses.length}`)
       }
 
       return NextResponse.json({

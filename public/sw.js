@@ -103,9 +103,48 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
+  // Handle page navigations (reload after action, link clicks) network-first
+  if (request.mode === 'navigate') {
+    event.respondWith(handleNavigationRequest(request))
+    return
+  }
+
   // Handle static assets and pages
   event.respondWith(handleStaticRequest(request))
 })
+
+// Dev mode flag: avoid cache-first serving so stale assets never break the page
+const isDev = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1'
+
+// Handle navigation requests (page loads/reloads) with network-first strategy.
+// Cache-first for navigations breaks after code changes (stale HTML referencing
+// old chunks) and turns transient network hiccups into "This site can't be
+// reached" error pages, so network is always tried first.
+async function handleNavigationRequest(request) {
+  try {
+    const networkResponse = await fetch(request, {
+      redirect: 'follow',
+      credentials: 'same-origin'
+    })
+    
+    if (networkResponse.ok && !networkResponse.redirected) {
+      const cache = await caches.open(DYNAMIC_CACHE)
+      cache.put(request, networkResponse.clone())
+    }
+    return networkResponse
+  } catch (error) {
+    console.log('[SW] Network failed for navigation, trying cache:', request.url)
+    const cachedResponse = await caches.match(request)
+    if (cachedResponse) {
+      return cachedResponse
+    }
+    const offlineResponse = await caches.match('/')
+    if (offlineResponse) {
+      return offlineResponse
+    }
+    throw error
+  }
+}
 
 // Handle API requests with network-first strategy
 async function handleApiRequest(request) {
@@ -119,7 +158,7 @@ async function handleApiRequest(request) {
     })
     
     // Cache successful responses for read-only API calls (but not redirects)
-    if (networkResponse.ok && !networkResponse.redirected && (request.method === 'GET')) {
+    if (!isDev && networkResponse.ok && !networkResponse.redirected && (request.method === 'GET')) {
       const cache = await caches.open(DYNAMIC_CACHE)
       cache.put(request, networkResponse.clone())
     }
@@ -148,12 +187,15 @@ async function handleApiRequest(request) {
 }
 
 // Handle static requests with cache-first strategy
+// (network-first in dev mode so stale cached assets are never served)
 async function handleStaticRequest(request) {
   try {
-    // Try cache first
-    const cachedResponse = await caches.match(request)
-    if (cachedResponse) {
-      return cachedResponse
+    // In dev, always fetch from the server first (cache only as offline fallback)
+    if (!isDev) {
+      const cachedResponse = await caches.match(request)
+      if (cachedResponse) {
+        return cachedResponse
+      }
     }
     
     // Fallback to network with proper redirect handling
